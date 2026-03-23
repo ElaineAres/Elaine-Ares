@@ -1,0 +1,2433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elaine Ares | Modern Websites And SEO Support</title>
+  <meta name="description" content="Website development, landing pages, redesign and SEO support for Lithuanian and international businesses.">
+  <meta name="keywords" content="website development, seo, web design, landing pages, business website, responsive website, freelancer, svetainiu kurimas, seo paslaugos">
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
+  <meta name="theme-color" content="#09030f">
+  <link rel="canonical" href="https://elaineares.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Elaine Ares | Modern Websites And SEO Support">
+  <meta property="og:description" content="Modern websites and clean SEO support designed to help businesses earn trust and more enquiries.">
+  <meta property="og:url" content="https://elaineares.com/">
+  <meta property="og:image" content="./images/logo.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Elaine Ares | Modern Websites And SEO Support">
+  <meta name="twitter:description" content="Website development and SEO support with a clean visual direction and a conversion-focused structure.">
+  <meta name="twitter:image" content="./images/logo.png">
+  <link rel="icon" type="image/png" href="./images/logo.png">
+  <style>
+    :root {
+      --bg: #07020d;
+      --panel: rgba(18, 9, 28, 0.64);
+      --line: rgba(255, 255, 255, 0.1);
+      --text: #f8f1ff;
+      --muted: rgba(248, 241, 255, 0.72);
+      --violet: #a36bff;
+      --rose: #f3b4ff;
+      --cyan: #aaf6ff;
+      --green: #a0ffd7;
+      --shadow: 0 30px 80px rgba(0, 0, 0, 0.34);
+      --radius: 24px;
+      --container: min(1200px, calc(100% - 32px));
+      --topbar-h: 42px;
+      --nav-h: 84px;
+      --ease: 260ms cubic-bezier(.2, .8, .2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: var(--text);
+      background: var(--bg);
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      isolation: isolate;
+    }
+
+    body.menu-open,
+    body.chat-open {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .bg-video,
+    .overlay,
+    .overlay-soft,
+    .lights,
+    .grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .bg-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      filter: brightness(0.5) saturate(0.9) contrast(1.04);
+      transform: scale(1.06);
+    }
+
+    .overlay {
+      z-index: 1;
+      background:
+        radial-gradient(circle at 14% 18%, rgba(243, 180, 255, 0.18), transparent 26%),
+        radial-gradient(circle at 78% 20%, rgba(163, 107, 255, 0.22), transparent 24%),
+        radial-gradient(circle at 50% 78%, rgba(90, 32, 150, 0.24), transparent 34%),
+        linear-gradient(180deg, rgba(22, 8, 34, 0.14) 0%, rgba(12, 4, 20, 0.52) 52%, rgba(6, 2, 10, 0.88) 100%);
+    }
+
+    .overlay-soft {
+      z-index: 2;
+      background:
+        linear-gradient(180deg, rgba(7, 2, 12, 0.08) 0%, rgba(7, 2, 12, 0.12) 18%, rgba(7, 2, 12, 0.44) 64%, rgba(7, 2, 12, 0.82) 100%),
+        linear-gradient(90deg, rgba(7, 2, 12, 0.68) 0%, rgba(7, 2, 12, 0.14) 26%, rgba(7, 2, 12, 0.14) 74%, rgba(7, 2, 12, 0.7) 100%);
+    }
+
+    .lights {
+      z-index: 3;
+      inset: -10%;
+      filter: blur(60px);
+      background:
+        radial-gradient(circle at 18% 30%, rgba(243, 180, 255, 0.18), transparent 20%),
+        radial-gradient(circle at 84% 22%, rgba(163, 107, 255, 0.18), transparent 18%),
+        radial-gradient(circle at 48% 88%, rgba(85, 40, 150, 0.16), transparent 22%);
+      animation: drift 16s ease-in-out infinite;
+    }
+
+    .grain {
+      z-index: 4;
+      opacity: 0.05;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+      background-size: 4px 4px;
+    }
+
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1300;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--rose), var(--violet), var(--cyan));
+      box-shadow: 0 0 22px rgba(163, 107, 255, 0.7);
+    }
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1200;
+      width: 100%;
+      min-height: var(--topbar-h);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      background: rgba(10, 4, 16, 0.62);
+      backdrop-filter: blur(14px);
+    }
+
+    .topbar-inner,
+    .nav-inner,
+    .section-inner,
+    .footer-inner {
+      width: var(--container);
+      margin: 0 auto;
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 0;
+    }
+
+    .announcement-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .badge,
+    .eyebrow,
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+      font-size: 0.74rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #f8dcff;
+    }
+
+    .badge::before,
+    .eyebrow::before,
+    .chip::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rose), var(--violet));
+      box-shadow: 0 0 16px rgba(163, 107, 255, 0.9);
+    }
+
+    .announcement-text {
+      min-width: 0;
+      color: rgba(248, 241, 255, 0.9);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 0.92rem;
+    }
+
+    .quick-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .quick-actions a,
+    .ghost-btn,
+    .lang-trigger,
+    .lang-menu button,
+    .nav-cta,
+    .hero-btn,
+    .contact-btn,
+    .chat-question,
+    .chat-toggle,
+    .menu-toggle {
+      transition:
+        transform var(--ease),
+        background var(--ease),
+        border-color var(--ease),
+        box-shadow var(--ease),
+        opacity var(--ease);
+    }
+
+    .quick-actions a,
+    .ghost-btn,
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+    }
+
+    .quick-actions a:hover,
+    .ghost-btn:hover,
+    .contact-btn:hover,
+    .lang-trigger:hover,
+    .lang-menu button:hover,
+    .nav-cta:hover,
+    .hero-btn:hover,
+    .chat-question:hover,
+    .chat-toggle:hover,
+    .menu-toggle:hover {
+      transform: translateY(-2px);
+    }
+
+    .nav {
+      position: fixed;
+      top: var(--topbar-h);
+      left: 0;
+      z-index: 1190;
+      width: 100%;
+    }
+
+    .nav-shell {
+      width: var(--container);
+      margin: 10px auto 0;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 26px;
+      background: rgba(15, 7, 24, 0.54);
+      backdrop-filter: blur(16px);
+      transition: background var(--ease), box-shadow var(--ease), border-color var(--ease);
+    }
+
+    .nav.scrolled .nav-shell {
+      background: rgba(11, 4, 18, 0.78);
+      border-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 18px 52px rgba(0, 0, 0, 0.28);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      min-height: var(--nav-h);
+      padding: 0 22px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .logo-frame {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+    }
+
+    .brand-title {
+      display: block;
+      font-family: "Bodoni MT", "Times New Roman", serif;
+      font-size: 1.18rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .brand-sub {
+      display: block;
+      margin-top: 2px;
+      font-size: 0.74rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(248, 241, 255, 0.58);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      margin-left: auto;
+    }
+
+    .nav-link {
+      position: relative;
+      font-size: 0.94rem;
+      color: rgba(248, 241, 255, 0.84);
+    }
+
+    .nav-link::after,
+    .nav-cta::after,
+    .hero-btn.primary::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 100%;
+      height: 1px;
+      transform: scaleX(0);
+      transform-origin: left;
+      background: linear-gradient(90deg, var(--rose), var(--violet), transparent);
+      transition: transform var(--ease);
+    }
+
+    .nav-link:hover::after,
+    .nav-cta:hover::after,
+    .hero-btn.primary:hover::after {
+      transform: scaleX(1);
+    }
+
+    .nav-tools {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-left: 18px;
+    }
+
+    .lang-select {
+      position: relative;
+    }
+
+    .lang-trigger {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 90px;
+      padding: 12px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .lang-trigger::after {
+      content: "▾";
+      font-size: 0.84rem;
+      color: rgba(248, 241, 255, 0.72);
+    }
+
+    .lang-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      min-width: 150px;
+      display: grid;
+      gap: 6px;
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      background: rgba(12, 4, 20, 0.94);
+      box-shadow: var(--shadow);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: opacity var(--ease), visibility var(--ease), transform var(--ease);
+    }
+
+    .lang-select.open .lang-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .lang-menu button {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.04);
+      color: rgba(248, 241, 255, 0.84);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .lang-menu button.active {
+      border-color: rgba(255, 255, 255, 0.1);
+      background: linear-gradient(135deg, rgba(243, 180, 255, 0.16), rgba(163, 107, 255, 0.18));
+      color: #fff;
+    }
+
+    .nav-cta,
+    .hero-btn.primary,
+    .chat-toggle {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 20px;
+      border: 0;
+      border-radius: 999px;
+      color: #fff;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.08)),
+        linear-gradient(135deg, rgba(243, 180, 255, 0.66), rgba(163, 107, 255, 0.86));
+      box-shadow: 0 18px 42px rgba(116, 62, 182, 0.28);
+      cursor: pointer;
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 48px;
+      height: 48px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .menu-toggle span,
+    .menu-toggle::before,
+    .menu-toggle::after {
+      content: "";
+      display: block;
+      width: 18px;
+      height: 2px;
+      margin: 0 auto;
+      border-radius: 999px;
+      background: #fff;
+      transition: transform var(--ease), opacity var(--ease);
+    }
+
+    .menu-toggle span {
+      margin: 6px auto;
+    }
+
+    .menu-toggle.active::before {
+      transform: translateY(8px) rotate(45deg);
+    }
+
+    .menu-toggle.active span {
+      opacity: 0;
+    }
+
+    .menu-toggle.active::after {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: calc(var(--topbar-h) + 96px);
+      left: 16px;
+      right: 16px;
+      z-index: 1180;
+      display: grid;
+      gap: 10px;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      background: rgba(12, 4, 20, 0.94);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: opacity var(--ease), visibility var(--ease), transform var(--ease);
+    }
+
+    .mobile-menu.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    main {
+      position: relative;
+      z-index: 5;
+      padding-top: calc(var(--topbar-h) + var(--nav-h) + 52px);
+    }
+
+    .section {
+      position: relative;
+      padding: 96px 0;
+    }
+
+    .section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(1120px, calc(100% - 32px));
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+      opacity: 0.54;
+    }
+
+    .section-head {
+      max-width: 760px;
+      margin-bottom: 30px;
+    }
+
+    .section-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+      color: #f8dcff;
+      font-size: 0.74rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .section-kicker::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rose), var(--violet));
+      box-shadow: 0 0 16px rgba(163, 107, 255, 0.84);
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: "Bodoni MT", "Times New Roman", serif;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      line-height: 0.98;
+    }
+
+    .section-title {
+      margin-top: 16px;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+    }
+
+    .section-copy,
+    .plan-copy,
+    .portfolio-copy,
+    .faq-answer,
+    .contact-copy {
+      margin-top: 16px;
+      color: var(--muted);
+      line-height: 1.82;
+      font-size: 1.02rem;
+      max-width: 760px;
+    }
+
+    .glass,
+    .card,
+    .plan-card,
+    .portfolio-card,
+    .contact-wrap,
+    .chat-panel {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)), var(--panel);
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+    }
+
+    .glass::before,
+    .card::before,
+    .plan-card::before,
+    .portfolio-card::before,
+    .contact-wrap::before,
+    .chat-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 36%);
+      opacity: 0.36;
+      pointer-events: none;
+    }
+
+    .hero {
+      padding-top: 42px;
+      padding-bottom: 88px;
+    }
+
+    .hero-grid,
+    .contact-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(340px, 0.98fr);
+      gap: 28px;
+      align-items: center;
+    }
+
+    .hero-title {
+      margin-top: 18px;
+      font-size: clamp(3.4rem, 8vw, 6.8rem);
+      text-shadow: 0 0 30px rgba(163, 107, 255, 0.16);
+    }
+
+    .hero-title .shine {
+      color: transparent;
+      background: linear-gradient(90deg, #fff 0%, #f6dcff 34%, #c691ff 72%, #fff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .hero-copy {
+      margin-top: 18px;
+      color: var(--muted);
+      line-height: 1.85;
+      font-size: 1.04rem;
+      max-width: 680px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .hero-btn.secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+    }
+
+    .hero-trust {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .hero-panel {
+      padding: 24px;
+    }
+
+    .price-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .price-card {
+      position: relative;
+      min-height: 138px;
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)), rgba(6, 2, 10, 0.84);
+      overflow: hidden;
+    }
+
+    .price-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(180deg, transparent 0 26px, rgba(255, 255, 255, 0.03) 26px 27px),
+        repeating-linear-gradient(90deg, transparent 0 48px, rgba(255, 255, 255, 0.03) 48px 49px);
+      opacity: 0.38;
+      pointer-events: none;
+    }
+
+    .price-card.live::after {
+      content: "";
+      position: absolute;
+      inset: auto -40px -40px auto;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(170, 246, 255, 0.18), transparent 68%);
+      filter: blur(4px);
+    }
+
+    .price-label {
+      position: relative;
+      font-size: 0.76rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(248, 241, 255, 0.66);
+      line-height: 1.6;
+    }
+
+    .price-value {
+      position: relative;
+      margin-top: 14px;
+      font-family: "Bodoni MT", "Times New Roman", serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1;
+    }
+
+    .price-head {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .price-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(248, 241, 255, 0.84);
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .price-badge::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      box-shadow: 0 0 14px rgba(170, 246, 255, 0.75);
+    }
+
+    .live-badge {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      color: #dffcff;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .price-note {
+      position: relative;
+      margin-top: 12px;
+      color: rgba(248, 241, 255, 0.62);
+      font-size: 0.84rem;
+      line-height: 1.6;
+    }
+
+    .live-badge::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      box-shadow: 0 0 18px rgba(160, 255, 215, 0.9);
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+
+    .hero-preview {
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(8, 3, 14, 0.86);
+    }
+
+    .hero-preview-top {
+      display: flex;
+      gap: 8px;
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .hero-preview-top span {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .hero-preview-body {
+      padding: 22px;
+    }
+
+    .mini-panel {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .mini-stat {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .mini-stat strong {
+      display: block;
+      font-family: "Bodoni MT", "Times New Roman", serif;
+      font-size: 1.9rem;
+      line-height: 1;
+    }
+
+    .mini-stat span {
+      display: block;
+      margin-top: 8px;
+      color: rgba(248, 241, 255, 0.68);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    .grid-3,
+    .plans-grid,
+    .portfolio-grid,
+    .faq-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      padding: 24px;
+    }
+
+    .card-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(135deg, rgba(243, 180, 255, 0.18), rgba(163, 107, 255, 0.18));
+      font-size: 0.86rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .card h3 {
+      margin-top: 18px;
+      font-size: 1.22rem;
+      line-height: 1.2;
+    }
+
+    .card p {
+      margin-top: 12px;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 0.98rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .plan-band {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      color: #f8dcff;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .plans-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .plan-card {
+      padding: 26px;
+      transition: transform var(--ease), border-color var(--ease), box-shadow var(--ease);
+    }
+
+    .plan-card:hover,
+    .portfolio-card:hover,
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(243, 180, 255, 0.22);
+      box-shadow: 0 26px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .plan-card.featured {
+      border-color: rgba(243, 180, 255, 0.24);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03)),
+        linear-gradient(180deg, rgba(243, 180, 255, 0.08), rgba(163, 107, 255, 0.08)),
+        var(--panel);
+    }
+
+    .plan-title {
+      margin-top: 18px;
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+    }
+
+    .plan-stack {
+      display: grid;
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .plan-block {
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .plan-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(248, 241, 255, 0.58);
+    }
+
+    .plan-price {
+      margin-top: 10px;
+      font-family: "Bodoni MT", "Times New Roman", serif;
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .plan-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+      list-style: none;
+    }
+
+    .plan-list li {
+      display: flex;
+      gap: 10px;
+      color: rgba(248, 241, 255, 0.78);
+      line-height: 1.7;
+    }
+
+    .plan-list li::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      margin-top: 10px;
+      border-radius: 50%;
+      flex: 0 0 auto;
+      background: linear-gradient(135deg, var(--green), var(--violet));
+      box-shadow: 0 0 14px rgba(160, 255, 215, 0.48);
+    }
+
+    .portfolio-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .portfolio-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 360px;
+      transition: transform var(--ease), border-color var(--ease), box-shadow var(--ease);
+    }
+
+    .portfolio-preview {
+      position: relative;
+      min-height: 210px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(8, 3, 14, 0.18), rgba(8, 3, 14, 0.82)),
+        var(--image);
+      background-size: cover;
+      background-position: center;
+    }
+
+    .portfolio-preview::before {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(8px);
+    }
+
+    .mock-browser {
+      position: absolute;
+      inset: 28px;
+      display: flex;
+      flex-direction: column;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(8, 3, 14, 0.78);
+      overflow: hidden;
+    }
+
+    .mock-top {
+      display: flex;
+      gap: 7px;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .mock-top i {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .mock-body {
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      height: 100%;
+    }
+
+    .domain {
+      font-family: "Bodoni MT", "Times New Roman", serif;
+      font-size: 1.24rem;
+      line-height: 1.06;
+      text-transform: uppercase;
+    }
+
+    .portfolio-meta {
+      padding: 20px 18px 22px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .portfolio-category {
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(248, 241, 255, 0.58);
+    }
+
+    .portfolio-goal {
+      margin-top: 12px;
+      color: var(--muted);
+      line-height: 1.78;
+      flex: 1;
+    }
+
+    .portfolio-open {
+      margin-top: 18px;
+      color: #f8dcff;
+      font-size: 0.88rem;
+    }
+
+    .faq-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .faq-item {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)), var(--panel);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .faq-question {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 22px 24px;
+      border: 0;
+      background: transparent;
+      color: #fff;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .faq-question span {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .faq-question strong {
+      font-size: 1.4rem;
+      color: rgba(248, 241, 255, 0.58);
+      transition: transform var(--ease), color var(--ease);
+    }
+
+    .faq-item.open .faq-question strong {
+      transform: rotate(45deg);
+      color: #fff;
+    }
+
+    .faq-answer-wrap {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 320ms ease;
+    }
+
+    .faq-answer {
+      padding: 0 24px 24px;
+      margin-top: 0;
+    }
+
+    .contact-wrap {
+      padding: 28px;
+    }
+
+    .contact-copy {
+      max-width: 640px;
+    }
+
+    .contact-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .contact-list .card {
+      padding: 20px;
+    }
+
+    .contact-label {
+      color: rgba(248, 241, 255, 0.56);
+      font-size: 0.74rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .contact-value {
+      margin-top: 8px;
+      font-size: 1.06rem;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    .footer {
+      position: relative;
+      z-index: 5;
+      padding: 34px 0 48px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(7, 2, 12, 0.46);
+      backdrop-filter: blur(16px);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-note {
+      max-width: 620px;
+      color: rgba(248, 241, 255, 0.66);
+      line-height: 1.7;
+    }
+
+    .footer-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .footer-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      font-size: 0.86rem;
+    }
+
+    .floating {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 1250;
+      display: grid;
+      justify-items: end;
+      gap: 12px;
+    }
+
+    .chat-toggle {
+      min-height: 58px;
+      padding: 0 22px;
+      font-size: 0.92rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .chat-panel {
+      position: fixed;
+      right: 18px;
+      bottom: 90px;
+      z-index: 1260;
+      width: min(390px, calc(100% - 24px));
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(16px);
+      transition: opacity var(--ease), visibility var(--ease), transform var(--ease);
+    }
+
+    .chat-panel.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .chat-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .chat-head strong {
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .chat-close {
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .chat-body {
+      display: grid;
+      gap: 16px;
+      padding: 18px 20px 20px;
+      max-height: 68vh;
+      overflow: auto;
+    }
+
+    .chat-thread,
+    .chat-questions {
+      display: grid;
+      gap: 12px;
+    }
+
+    .message {
+      max-width: 92%;
+      padding: 12px 14px;
+      border-radius: 18px;
+      line-height: 1.65;
+      font-size: 0.92rem;
+    }
+
+    .message.bot {
+      justify-self: start;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .message.user {
+      justify-self: end;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(135deg, rgba(243, 180, 255, 0.24), rgba(163, 107, 255, 0.24));
+    }
+
+    .chat-question {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      color: rgba(248, 241, 255, 0.9);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 720ms ease, transform 720ms ease;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes drift {
+      0%, 100% {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+      50% {
+        transform: translate3d(20px, -18px, 0) scale(1.04);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.24);
+        opacity: 0.74;
+      }
+    }
+
+    @media (max-width: 1100px) {
+      .hero-grid,
+      .contact-grid,
+      .plans-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .services-grid,
+      .portfolio-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 920px) {
+      .nav-links,
+      .nav-tools .nav-cta {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: inline-grid;
+        place-items: center;
+      }
+
+      .nav-tools {
+        margin-left: auto;
+      }
+
+      .grid-3,
+      .services-grid,
+      .portfolio-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      :root {
+        --container: calc(100% - 24px);
+      }
+
+      .quick-actions {
+        display: none;
+      }
+
+      .nav-inner {
+        min-height: 74px;
+        padding: 0 16px;
+      }
+
+      main {
+        padding-top: calc(var(--topbar-h) + 92px);
+      }
+
+      .hero-title {
+        font-size: clamp(3rem, 14vw, 5rem);
+      }
+
+      .hero-panel,
+      .plan-card,
+      .card,
+      .contact-wrap {
+        padding: 20px;
+      }
+
+      .price-row,
+      .mini-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .chat-panel {
+        right: 12px;
+        bottom: 82px;
+        width: calc(100% - 24px);
+      }
+
+      .floating {
+        right: 12px;
+        bottom: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+  <video class="bg-video" id="bgVideo" autoplay muted loop playsinline preload="auto">
+    <source src="./images/background.mp4" type="video/mp4">
+  </video>
+  <div class="overlay"></div>
+  <div class="overlay-soft"></div>
+  <div class="lights"></div>
+  <div class="grain"></div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="announcement-wrap">
+        <span class="badge" data-i18n="top.badge">Live Offer</span>
+        <div class="announcement-text" id="announcementText"></div>
+      </div>
+      <div class="quick-actions">
+        <a href="https://wa.me/37064865237?text=Hello%2C%20I%20would%20like%20a%20website." target="_blank" rel="noopener">WhatsApp</a>
+        <a href="viber://chat?number=%2B37064865237">Viber</a>
+        <a href="mailto:elainearess@gmail.com">Email</a>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav" id="nav">
+    <div class="nav-shell">
+      <div class="nav-inner">
+        <a class="brand" href="#top">
+          <span class="logo-frame">
+            <img class="brand-logo" src="./images/logo.png" alt="Elaine Ares logo">
+          </span>
+          <span>
+            <span class="brand-title">Elaine Ares</span>
+            <span class="brand-sub" data-i18n="brandSub"></span>
+          </span>
+        </a>
+
+        <div class="nav-links">
+          <a class="nav-link" href="#about-website" data-i18n="nav.about"></a>
+          <a class="nav-link" href="#pricing" data-i18n="nav.pricing"></a>
+          <a class="nav-link" href="#portfolio" data-i18n="nav.portfolio"></a>
+          <a class="nav-link" href="#faq" data-i18n="nav.faq"></a>
+          <a class="nav-link" href="#contact" data-i18n="nav.contact"></a>
+        </div>
+
+        <div class="nav-tools">
+          <div class="lang-select" id="langSelect">
+            <button class="lang-trigger" id="langTrigger" type="button">
+              <span id="currentLanguage">EN</span>
+            </button>
+            <div class="lang-menu" id="langMenu"></div>
+          </div>
+          <a class="nav-cta" href="https://wa.me/37064865237?text=Hello%2C%20I%20would%20like%20a%20free%20website%20concept." target="_blank" rel="noopener" data-i18n="nav.cta"></a>
+          <button class="menu-toggle" id="menuToggle" type="button"><span></span></button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a class="nav-link" href="#about-website" data-i18n="nav.about"></a>
+    <a class="nav-link" href="#pricing" data-i18n="nav.pricing"></a>
+    <a class="nav-link" href="#portfolio" data-i18n="nav.portfolio"></a>
+    <a class="nav-link" href="#faq" data-i18n="nav.faq"></a>
+    <a class="nav-link" href="#contact" data-i18n="nav.contact"></a>
+    <a class="nav-cta" href="https://wa.me/37064865237?text=Hello%2C%20I%20would%20like%20a%20free%20website%20concept." target="_blank" rel="noopener" data-i18n="nav.cta"></a>
+  </div>
+
+  <main>
+    <section class="section hero" id="top">
+      <div class="section-inner hero-grid">
+        <div class="reveal">
+          <div class="eyebrow" data-i18n="hero.kicker"></div>
+          <h1 class="hero-title"><span class="shine" data-i18n="hero.title"></span></h1>
+          <p class="hero-copy" data-i18n="hero.copy"></p>
+          <div class="hero-actions">
+            <a class="hero-btn primary" href="https://wa.me/37064865237?text=Hello%2C%20I%20would%20like%20a%20free%20website%20concept." target="_blank" rel="noopener" data-i18n="hero.primary"></a>
+            <a class="hero-btn secondary" href="#portfolio" data-i18n="hero.secondary"></a>
+          </div>
+          <div class="hero-trust" id="heroTrust"></div>
+        </div>
+
+        <div class="hero-panel glass reveal">
+          <div class="price-row" id="priceRow"></div>
+          <div class="hero-preview">
+            <div class="hero-preview-top">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div class="hero-preview-body">
+              <div class="section-kicker" data-i18n="hero.previewKicker"></div>
+              <h2 data-i18n="hero.previewTitle"></h2>
+              <p class="section-copy" data-i18n="hero.previewCopy"></p>
+              <div class="mini-panel" id="heroStats"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about-website">
+      <div class="section-inner">
+        <div class="section-head reveal">
+          <div class="section-kicker" data-i18n="about.kicker"></div>
+          <h2 class="section-title" data-i18n="about.title"></h2>
+          <p class="section-copy" data-i18n="about.copy"></p>
+        </div>
+        <div class="grid-3" id="aboutCards"></div>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="section-inner">
+        <div class="section-head reveal">
+          <div class="section-kicker" data-i18n="services.kicker"></div>
+          <h2 class="section-title" data-i18n="services.title"></h2>
+          <p class="section-copy" data-i18n="services.copy"></p>
+        </div>
+        <div class="services-grid" id="servicesGrid"></div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <div class="section-inner">
+        <div class="section-head reveal">
+          <div class="section-kicker" data-i18n="pricing.kicker"></div>
+          <h2 class="section-title" data-i18n="pricing.title"></h2>
+          <p class="section-copy" data-i18n="pricing.copy"></p>
+        </div>
+        <div class="plans-grid" id="plansGrid"></div>
+      </div>
+    </section>
+
+    <section class="section" id="seo-benefits">
+      <div class="section-inner">
+        <div class="section-head reveal">
+          <div class="section-kicker" data-i18n="seo.kicker"></div>
+          <h2 class="section-title" data-i18n="seo.title"></h2>
+          <p class="section-copy" data-i18n="seo.copy"></p>
+        </div>
+        <div class="grid-3" id="seoCards"></div>
+      </div>
+    </section>
+
+    <section class="section" id="portfolio">
+      <div class="section-inner">
+        <div class="section-head reveal">
+          <div class="section-kicker" data-i18n="portfolio.kicker"></div>
+          <h2 class="section-title" data-i18n="portfolio.title"></h2>
+          <p class="section-copy" data-i18n="portfolio.copy"></p>
+        </div>
+        <div class="portfolio-grid" id="portfolioGrid"></div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="section-inner">
+        <div class="section-head reveal">
+          <div class="section-kicker" data-i18n="faq.kicker"></div>
+          <h2 class="section-title" data-i18n="faq.title"></h2>
+          <p class="section-copy" data-i18n="faq.copy"></p>
+        </div>
+        <div class="faq-grid" id="faqGrid"></div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="section-inner">
+        <div class="contact-wrap reveal">
+          <div class="contact-grid">
+            <div>
+              <div class="section-kicker" data-i18n="contact.kicker"></div>
+              <h2 class="section-title" data-i18n="contact.title"></h2>
+              <p class="contact-copy" data-i18n="contact.copy"></p>
+              <div class="contact-actions">
+                <a class="contact-btn" href="https://wa.me/37064865237?text=Hello%2C%20I%20want%20a%20website." target="_blank" rel="noopener">WhatsApp</a>
+                <a class="contact-btn" href="viber://chat?number=%2B37064865237">Viber</a>
+                <a class="contact-btn" href="mailto:elainearess@gmail.com">Email</a>
+                <a class="contact-btn" href="sms:+37064865237">SMS</a>
+                <a class="contact-btn" href="tel:+37064865237">Call</a>
+              </div>
+            </div>
+            <div class="contact-list" id="contactCards"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p class="footer-note" data-i18n="footer.note"></p>
+      <div class="footer-meta">
+        <span class="footer-pill">+37064865237</span>
+        <span class="footer-pill">elainearess@gmail.com</span>
+        <span class="footer-pill" data-i18n="footer.speed"></span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="floating">
+    <div class="chat-panel" id="chatPanel">
+      <div class="chat-head">
+        <strong data-i18n="chat.title"></strong>
+        <button class="chat-close" id="chatClose" type="button">×</button>
+      </div>
+      <div class="chat-body">
+        <div class="chat-thread" id="chatThread"></div>
+        <div class="chat-questions" id="chatQuestions"></div>
+      </div>
+    </div>
+    <button class="chat-toggle" id="chatToggle" type="button" data-i18n="chat.button"></button>
+  </div>
+
+  <script>
+    const content = {
+      en: {
+        code: "EN",
+        codeLong: "English",
+        meta: {
+          title: "Elaine Ares | Modern Websites And SEO Support",
+          description: "Website development, landing pages, redesign and SEO support for Lithuanian and international businesses."
+        },
+        announcements: [
+          "Website + SEO starter package now only from €120",
+          "Replies within 5 minutes",
+          "10% off if the reply takes longer than 5 minutes"
+        ],
+        brandSub: "Websites and seo",
+        top: { badge: "Live Offer" },
+        nav: {
+          about: "About Website",
+          pricing: "Pricing",
+          portfolio: "Portfolio",
+          faq: "FAQ",
+          contact: "Contact",
+          cta: "Get Free Concept"
+        },
+        hero: {
+          kicker: "Website development",
+          title: "Websites that bring you clients. Not just traffic.",
+          copy: "I create business websites, landing pages, redesigns and clean SEO support for brands that want stronger trust, better first impressions and more enquiries.",
+          primary: "Get Free Concept",
+          secondary: "See Examples",
+          trust: ["Reply within 5 minutes", "10% off if reply is slower", "LT / EN / RU communication"],
+          previewKicker: "Modern build direction",
+          previewTitle: "Clear structure. Better trust. Easier contact.",
+          previewCopy: "The page is built to look clear, modern, and guide visitors toward contact without clutter.",
+          stats: [["1 day", "Fast concept start"], ["SEO", "Clean starter support"], ["5 min", "Response goal"]],
+          prices: [
+            { label: "Website creation market range", value: "€120 - €300", badge: "Market board", note: "Depends on scope, page count and design depth." },
+            { label: "SEO market range", value: "€90 - €250 / month", badge: "Monthly", note: "Depends on competition and support depth.", live: "Live market" }
+          ]
+        },
+        about: {
+          kicker: "About Website",
+          title: "What SEO is, how much it costs, and why it matters",
+          copy: "SEO is not decoration. It helps your website appear stronger in search, creates a clearer structure for Google and gives your business a better chance to be found by the right people.",
+          cards: [
+            { icon: "SEO", title: "What is SEO", copy: "SEO means preparing the website so search engines understand it better. Clean headings, page structure, speed, keywords and relevance all matter." },
+            { icon: "€", title: "How much SEO costs", copy: "For business websites, monthly SEO usually starts from €99. For private pages, a lighter one-time yearly setup can start from €94." },
+            { icon: "WHY", title: "Why it is needed", copy: "A website without SEO is harder to find, harder to trust, and weaker in competition. SEO supports visibility, structure and long-term stability." }
+          ]
+        },
+        services: {
+          kicker: "Main Services",
+          title: "Website work that stays clear, modern, and business-focused",
+          copy: "The main offer remains website creation. SEO and digital support are there to make the website stronger and easier to grow.",
+          items: [
+            { icon: "WEB", title: "Business website creation", copy: "Modern websites designed to look serious and help businesses win trust faster." },
+            { icon: "LP", title: "Landing pages", copy: "Focused pages built for one offer, one goal and a cleaner conversion path." },
+            { icon: "UX", title: "Website redesign", copy: "A full visual and structural refresh for old websites that feel weak or outdated." },
+            { icon: "SEO", title: "Basic SEO setup", copy: "Starter optimization, cleaner on-page structure and a better technical base." }
+          ]
+        },
+        pricing: {
+          kicker: "Plans",
+          title: "Simple plans for business and private clients",
+          copy: "The business plan is recommended when the goal is stable growth, stronger search visibility and a more reliable website environment.",
+          plans: [
+            {
+              featured: true,
+              band: "Recommended",
+              title: "Recommended plan for business",
+              intro: "Built for businesses that want stable ranking, stronger trust and fewer technical issues over time.",
+              seoLabel: "SEO",
+              seoPrice: "€99 / month",
+              seoPoints: ["Needed because of competition", "Protection from Google updates", "More stable ranking over time"],
+              hostLabel: "Hosting",
+              hostPrice: "€15 / month",
+              hostPoints: ["Custom server setup", "Fewer errors and downtime", "Faster loading experience"]
+            },
+            {
+              featured: false,
+              band: "Private",
+              title: "For private people",
+              intro: "A lighter plan for personal pages and smaller private projects that still need a clean SEO base.",
+              seoLabel: "SEO",
+              seoPrice: "€94 / year (one-time)",
+              seoPoints: ["Basic SEO included", "150 keywords", "Level 3 SEO optimization"],
+              hostLabel: "Hosting",
+              hostPrice: "€4 / month",
+              hostPoints: ["Storage usage support", "Basic hosting", "Simple low-cost setup"]
+            }
+          ]
+        },
+        seo: {
+          kicker: "SEO Benefits",
+          title: "What SEO helps you do in real business terms",
+          copy: "SEO matters because it supports visibility, trust and a stronger first digital impression. The goal is not just visits. The goal is better business outcomes.",
+          cards: [
+            { icon: "GR", title: "Google ranking", copy: "A more structured site gives Google clearer signals and helps pages compete better in search." },
+            { icon: "TR", title: "More traffic", copy: "Better visibility creates a stronger chance of receiving consistent search-based visitors." },
+            { icon: "CL", title: "More clients", copy: "A strong page with better search support makes it easier for interested visitors to contact you." }
+          ]
+        },
+        portfolio: {
+          kicker: "Portfolio",
+          title: "Real project examples with local business focus",
+          copy: "These project cards show a strong direction: clear structure, service clarity, trust and easy contact. Each website has a business purpose, not just a visual style.",
+          open: "Open project",
+          items: [
+            { domain: "gedolangai.lt", category: "Windows / home improvement", goal: "Website direction for a home improvement business that needs cleaner service presentation and stronger trust.", image: "./images/santechnikasklaipedoje.jpeg", href: "https://gedolangai.lt/" },
+            { domain: "bituminisstogas.lt", category: "Roofing services", goal: "A stronger digital presence for bitumen roofing services with clearer structure and mobile-friendly presentation.", image: "./images/bituminisstogas.jpg", href: "https://bituminisstogas.lt/" },
+            { domain: "jonoelektra.lt", category: "Electrician services", goal: "A serious local service website built to communicate reliability and make contacting easier.", image: "./images/jonoelektra.png", href: "https://jonoelektra.lt/" },
+            { domain: "elektroasas.lt", category: "Electrical services", goal: "A clean business website concept for electrical work, service clarity and more confident enquiries.", image: "./images/elektroasas.jpg", href: "https://elektroasas.lt/" }
+          ]
+        },
+        faq: {
+          kicker: "FAQ",
+          title: "Clear answers before you message",
+          copy: "If you want a quick overview first, these are the most common questions.",
+          items: [
+            { q: "How much does a website cost?", a: "Most projects start from €120 and go higher depending on the size, pages, design depth and support needed." },
+            { q: "How fast can you build it?", a: "A first concept can be shown quickly. The full build depends on the project size, but communication stays fast." },
+            { q: "Can I contact you by WhatsApp or Viber?", a: "Yes. WhatsApp, Viber, email, SMS and direct phone calls are all available." },
+            { q: "Do you work internationally?", a: "Yes. Lithuanian, English and Russian support is available, and the structure is suitable for broader international work." }
+          ]
+        },
+        contact: {
+          kicker: "Contact",
+          title: "If you want a website, the fastest step is a message",
+          copy: "Send a short message with your business name or idea, and I can show direction, pricing and what would fit your project best."
+        },
+        contactCards: [
+          { label: "Phone", value: "+37064865237", copy: "Call directly if you want the fastest route." },
+          { label: "Email", value: "elainearess@gmail.com", copy: "Best for sending a longer project message." },
+          { label: "Response", value: "Within 5 minutes", copy: "Fast communication keeps the project moving." }
+        ],
+        footer: {
+          note: "Elaine Ares creates websites, landing pages and SEO-ready structures for businesses that want modern results without heavy agency overhead.",
+          speed: "10% off if reply takes longer than 5 minutes"
+        },
+        chat: {
+          title: "Quick Answers",
+          button: "Chat",
+          hello: "Ask one of the quick questions below and I will answer instantly.",
+          questions: ["How much does a website cost?", "How fast can you build it?", "Can I contact you by WhatsApp?", "Do you work internationally?"],
+          answers: [
+            "Most websites start from €120 and go higher depending on pages, visuals and support.",
+            "A concept can be prepared quickly. Timing depends on scope, but communication stays fast.",
+            "Yes. WhatsApp is active, and Viber, email, SMS and phone call are available too.",
+            "Yes. The website supports Lithuanian, English and Russian visitors and works for wider clients."
+          ]
+        }
+      },
+      lt: {
+        code: "LT",
+        codeLong: "Lietuvių",
+        meta: {
+          title: "Elaine Ares | Modernios svetainės ir SEO pagalba",
+          description: "Svetainių kūrimas, landing puslapiai, perkurimai ir SEO pagalba Lietuvos bei tarptautiniams verslams."
+        },
+        announcements: [
+          "Svetainė + SEO startas dabar nuo €120",
+          "Atsakymas per 5 minutes",
+          "10% nuolaida jei atsakymo lauki ilgiau nei 5 minutes"
+        ],
+        brandSub: "Svetainės ir seo",
+        top: { badge: "Live Offer" },
+        nav: {
+          about: "Apie svetainę",
+          pricing: "Kainos",
+          portfolio: "Pavyzdžiai",
+          faq: "DUK",
+          contact: "Kontaktai",
+          cta: "Gauti konceptą"
+        },
+        hero: {
+          kicker: "Svetainių kūrimas",
+          title: "Svetainės, kurios atveda klientus. Ne tik srautą.",
+          copy: "Kuriu verslo svetaines, landing puslapius, perkurimus ir švarią SEO pagalbą verslams, kurie nori daugiau pasitikėjimo, geresnio pirmo įspūdžio ir daugiau užklausų.",
+          primary: "Gauti konceptą",
+          secondary: "Žiūrėti pavyzdžius",
+          trust: ["Atsakymas per 5 minutes", "10% nuolaida jei vėluoju", "LT / EN / RU komunikacija"],
+          previewKicker: "Moderni kryptis",
+          previewTitle: "Aiški struktūra. Didesnis pasitikėjimas. Lengvesnis kontaktas.",
+          previewCopy: "Svetainė kuriama taip, kad atrodytų aiškiai, moderniai ir vestų žmogų link kontakto be bereikalingo triukšmo.",
+          stats: [["1 diena", "Greitas koncepto startas"], ["SEO", "Aiškus startinis pagrindas"], ["5 min", "Atsakymo tikslas"]],
+          prices: [
+            { label: "Svetainių kūrimo rinkos rėžis", value: "€120 - €300", badge: "Rinkos lenta", note: "Priklauso nuo apimties, puslapių skaičiaus ir dizaino gylio." },
+            { label: "SEO rinkos rėžis", value: "€90 - €250 / mėn.", badge: "Mėnesinis", note: "Priklauso nuo konkurencijos ir priežiūros lygio.", live: "Rinkos live" }
+          ]
+        },
+        about: {
+          kicker: "Apie svetainę",
+          title: "Kas yra SEO, kiek jis kainuoja ir kodėl jo reikia",
+          copy: "SEO nėra tik papildomas papuošimas. Jis padeda svetainei geriau matytis paieškoje, suteikia aiškesnę struktūrą Google sistemai ir leidžia verslui būti lengviau randamam tinkamų žmonių.",
+          cards: [
+            { icon: "SEO", title: "Kas yra SEO", copy: "SEO reiškia svetainės paruošimą taip, kad paieškos sistemos ją geriau suprastų. Svarbu tvarkingos antraštės, struktūra, greitis, raktažodžiai ir turinio atitikimas." },
+            { icon: "€", title: "Kiek kainuoja SEO", copy: "Verslo svetainėms mėnesinis SEO dažniausiai startuoja nuo €99. Privačioms svetainėms lengvesnis vienkartinis metinis variantas gali prasidėti nuo €94." },
+            { icon: "KOD", title: "Kodėl jis reikalingas", copy: "Be SEO svetainę sunkiau rasti, sunkiau ja pasitikėti ir sunkiau konkuruoti. SEO padeda matomumui, struktūrai ir ilgalaikiam stabilumui." }
+          ]
+        },
+        services: {
+          kicker: "Pagrindinės paslaugos",
+          title: "Svetainių darbai, kurie išlieka aiškūs, modernūs ir orientuoti į verslą",
+          copy: "Pagrindinis pasiūlymas išlieka svetainių kūrimas. SEO ir papildoma skaitmeninė pagalba yra skirti tam, kad pati svetainė veiktų stipriau.",
+          items: [
+            { icon: "WEB", title: "Verslo svetainių kūrimas", copy: "Modernios svetainės, kurios atrodo rimtai ir padeda verslui greičiau pelnyti pasitikėjimą." },
+            { icon: "LP", title: "Landing puslapiai", copy: "Tiksliniai puslapiai vienam pasiūlymui, vienam tikslui ir aiškesniam konversijos keliui." },
+            { icon: "UX", title: "Svetainės perkūrimas", copy: "Pilnas vizualinis ir struktūrinis atnaujinimas senoms svetainėms, kurios atrodo silpnai ar pasenusios." },
+            { icon: "SEO", title: "Bazinis SEO setup", copy: "Startinis optimizavimas, tvarkingesnė on-page struktūra ir geresnis techninis pagrindas." }
+          ]
+        },
+        pricing: {
+          kicker: "Planai",
+          title: "Aiškūs planai verslui ir privatiems klientams",
+          copy: "Verslo planas rekomenduojamas tada, kai tikslas yra stabilus augimas, stipresnis matomumas paieškoje ir patikimesnė svetainės aplinka.",
+          plans: [
+            {
+              featured: true,
+              band: "Rekomenduojama",
+              title: "Recommended plan for business",
+              intro: "Skirta verslams, kurie nori stabilesnių pozicijų, daugiau pasitikėjimo ir mažiau techninių problemų ilgalaikėje perspektyvoje.",
+              seoLabel: "SEO",
+              seoPrice: "€99 / mėn.",
+              seoPoints: ["Reikalingas dėl konkurencijos", "Apsauga nuo Google update", "Stabilesnis ranking laikui bėgant"],
+              hostLabel: "Hosting",
+              hostPrice: "€15 / mėn.",
+              hostPoints: ["Custom server sprendimas", "Mažiau klaidų ir strigimų", "Greitesnis loading"]
+            },
+            {
+              featured: false,
+              band: "Privatiems",
+              title: "For private people",
+              intro: "Lengvesnis planas asmeninėms svetainėms ir mažesniems projektams, kuriems vis tiek reikia tvarkingo SEO pagrindo.",
+              seoLabel: "SEO",
+              seoPrice: "€94 / metai (vienkartinis)",
+              seoPoints: ["Basic SEO", "150 keywords", "Level 3 SEO optimization"],
+              hostLabel: "Hosting",
+              hostPrice: "€4 / mėn.",
+              hostPoints: ["Storage usage", "Basic hosting", "Paprastas ekonomiškas setup"]
+            }
+          ]
+        },
+        seo: {
+          kicker: "SEO nauda",
+          title: "Kuo SEO naudingas realiai verslui",
+          copy: "SEO svarbus todėl, kad stiprina matomumą, pasitikėjimą ir pirmą skaitmeninį įspūdį. Tikslas nėra vien apsilankymai. Tikslas yra geresnis verslo rezultatas.",
+          cards: [
+            { icon: "GR", title: "Google ranking", copy: "Tvarkingesnė svetainė siunčia Google aiškesnius signalus ir leidžia geriau konkuruoti paieškoje." },
+            { icon: "TR", title: "Didesnis traffic", copy: "Geresnis matomumas padidina šansą gauti pastovesnį lankytojų srautą iš paieškos." },
+            { icon: "CL", title: "Daugiau klientų", copy: "Tvarkingas puslapis su stipresniu SEO palaikymu lengviau paverčia susidomėjusį lankytoją realiu kontaktu." }
+          ]
+        },
+        portfolio: {
+          kicker: "Portfolio",
+          title: "Realūs projektų pavyzdžiai verslui",
+          copy: "Šie projektų blokai rodo stiprią kryptį: aiški struktūra, paslaugų suprantamumas, pasitikėjimas ir lengvas kontaktas. Kiekviena svetainė turi verslo tikslą, ne tik gražų vaizdą.",
+          open: "Atidaryti projektą",
+          items: [
+            { domain: "gedolangai.lt", category: "Langai / namų gerinimas", goal: "Svetainės kryptis namų gerinimo verslui, kuriam reikia aiškesnio paslaugų pateikimo ir stipresnio pasitikėjimo.", image: "./images/santechnikasklaipedoje.jpeg", href: "https://gedolangai.lt/" },
+            { domain: "bituminisstogas.lt", category: "Stogų darbai", goal: "Stipresnis skaitmeninis įvaizdis bituminių stogų paslaugoms su aiškesne struktūra ir patogiu mobile vaizdu.", image: "./images/bituminisstogas.jpg", href: "https://bituminisstogas.lt/" },
+            { domain: "jonoelektra.lt", category: "Elektriko paslaugos", goal: "Rimta vietinių paslaugų svetainė, kuri komunikuoja patikimumą ir padaro susisiekimą lengvesnį.", image: "./images/jonoelektra.png", href: "https://jonoelektra.lt/" },
+            { domain: "elektroasas.lt", category: "Elektros darbai", goal: "Švari verslo svetainės kryptis elektros darbams, aiškesniam paslaugų pateikimui ir daugiau užtikrintų užklausų.", image: "./images/elektroasas.jpg", href: "https://elektroasas.lt/" }
+          ]
+        },
+        faq: {
+          kicker: "DUK",
+          title: "Aiškūs atsakymai prieš parašant",
+          copy: "Jei nori trumpos apžvalgos prieš susisiekiant, čia yra dažniausi klausimai.",
+          items: [
+            { q: "Kiek kainuoja svetainė?", a: "Dauguma projektų startuoja nuo €120 ir kyla aukštyn pagal apimtį, puslapių skaičių, dizaino gylį ir reikalingą pagalbą." },
+            { q: "Kaip greitai gali ją sukurti?", a: "Pirmą konceptą galima parodyti greitai. Pilnas įgyvendinimas priklauso nuo projekto apimties, bet komunikacija išlieka greita." },
+            { q: "Ar galiu susisiekti per WhatsApp arba Viber?", a: "Taip. Veikia WhatsApp, Viber, el. paštas, SMS ir tiesioginiai skambučiai." },
+            { q: "Ar dirbi ir su tarptautiniais klientais?", a: "Taip. Yra lietuvių, anglų ir rusų kalbų palaikymas, o pati struktūra tinka ir platesniems tarptautiniams projektams." }
+          ]
+        },
+        contact: {
+          kicker: "Kontaktai",
+          title: "Jei nori svetainės, greičiausias žingsnis yra žinutė",
+          copy: "Parašyk trumpą žinutę su savo verslo pavadinimu arba idėja ir aš parodysiu kryptį, kainą bei kas geriausiai tiktų tavo projektui."
+        },
+        contactCards: [
+          { label: "Telefonas", value: "+37064865237", copy: "Skambink tiesiai, jei nori greičiausio kelio." },
+          { label: "El. paštas", value: "elainearess@gmail.com", copy: "Patogu, jei nori parašyti detalesnę projekto žinutę." },
+          { label: "Greitis", value: "Per 5 minutes", copy: "Greita komunikacija išlaiko projekto tempą." }
+        ],
+        footer: {
+          note: "Elaine Ares kuria svetaines, landing puslapius ir SEO paruoštą struktūrą verslams, kurie nori modernaus rezultato be sunkaus agentūrinio proceso.",
+          speed: "10% nuolaida jei atsakymas vėluoja ilgiau nei 5 minutes"
+        },
+        chat: {
+          title: "Greiti atsakymai",
+          button: "Chat",
+          hello: "Pasirink vieną iš greitų klausimų apačioje ir atsakymą gausi iškart.",
+          questions: ["Kiek kainuoja svetainė?", "Kaip greitai gali ją sukurti?", "Ar galiu parašyti per WhatsApp?", "Ar dirbi tarptautiniu mastu?"],
+          answers: [
+            "Dauguma svetainių startuoja nuo €120 ir kyla pagal puslapių skaičių, vizualą ir pagalbos lygį.",
+            "Konceptą galima paruošti greitai. Galutinis terminas priklauso nuo apimties, bet komunikacija lieka greita.",
+            "Taip. Veikia WhatsApp, o taip pat ir Viber, el. paštas, SMS bei skambutis.",
+            "Taip. Svetainė pritaikyta lietuvių, anglų ir rusų lankytojams bei platesniems klientams."
+          ]
+        }
+      },
+      ru: {
+        code: "RU",
+        codeLong: "Русский",
+        meta: {
+          title: "Elaine Ares | Современные сайты и SEO поддержка",
+          description: "Разработка сайтов, лендингов, редизайн и SEO поддержка для литовских и международных клиентов."
+        },
+        announcements: [
+          "Старт сайта + SEO сейчас от €120",
+          "Ответ в течение 5 минут",
+          "Скидка 10% если ответ дольше 5 минут"
+        ],
+        brandSub: "Сайты и seo",
+        top: { badge: "Live Offer" },
+        nav: {
+          about: "О сайте",
+          pricing: "Цены",
+          portfolio: "Портфолио",
+          faq: "FAQ",
+          contact: "Контакты",
+          cta: "Получить концепт"
+        },
+        hero: {
+          kicker: "Разработка сайтов",
+          title: "Сайты, которые приводят клиентов. Не только трафик.",
+          copy: "Я создаю бизнес-сайты, лендинги, редизайн и чистую SEO поддержку для брендов, которым нужны больше доверия, лучший первый эффект и больше заявок.",
+          primary: "Получить концепт",
+          secondary: "Смотреть примеры",
+          trust: ["Ответ в течение 5 минут", "Скидка 10% если ответ позже", "LT / EN / RU общение"],
+          previewKicker: "Современное направление",
+          previewTitle: "Четкая структура. Больше доверия. Легче связаться.",
+          previewCopy: "Сайт создается так, чтобы выглядеть дорого, быстро объяснять предложение и вести посетителя к контакту без лишнего шума.",
+          stats: [["1 день", "Быстрый старт концепта"], ["SEO", "Чистая стартовая база"], ["5 мин", "Цель ответа"]],
+          prices: [
+            { label: "Рыночный диапазон сайта", value: "€120 - €300", badge: "Рынок", note: "Зависит от объема, количества страниц и глубины дизайна." },
+            { label: "Рыночный диапазон SEO", value: "€90 - €250 / месяц", badge: "Месяц", note: "Зависит от конкуренции и объема поддержки.", live: "Live рынок" }
+          ]
+        },
+        about: {
+          kicker: "О сайте",
+          title: "Что такое SEO, сколько это стоит и зачем это нужно",
+          copy: "SEO это не просто дополнение. Оно помогает сайту лучше показываться в поиске, дает более понятную структуру для Google и повышает шанс, что ваш бизнес найдут нужные люди.",
+          cards: [
+            { icon: "SEO", title: "Что такое SEO", copy: "SEO означает подготовку сайта так, чтобы поисковые системы лучше его понимали. Важны заголовки, структура, скорость, ключевые слова и релевантность." },
+            { icon: "€", title: "Сколько стоит SEO", copy: "Для бизнес-сайтов ежемесячное SEO обычно начинается от €99. Для частных сайтов более легкий разовый годовой вариант может начинаться от €94." },
+            { icon: "WHY", title: "Зачем это нужно", copy: "Без SEO сайт сложнее найти, сложнее ему доверять и сложнее конкурировать. SEO поддерживает видимость, структуру и долгосрочную стабильность." }
+          ]
+        },
+        services: {
+          kicker: "Основные услуги",
+          title: "Работа с сайтами, которая остается чистой, современной и ориентированной на бизнес",
+          copy: "Главное предложение это создание сайтов. SEO и цифровая поддержка нужны для того, чтобы сам сайт работал сильнее.",
+          items: [
+            { icon: "WEB", title: "Создание бизнес-сайтов", copy: "Современные сайты, которые выглядят серьезно и помогают бизнесу быстрее вызывать доверие." },
+            { icon: "LP", title: "Landing pages", copy: "Фокусные страницы под одно предложение, одну цель и более чистый путь к конверсии." },
+            { icon: "UX", title: "Редизайн сайта", copy: "Полное визуальное и структурное обновление старых сайтов, которые выглядят слабо или устарело." },
+            { icon: "SEO", title: "Базовый SEO setup", copy: "Стартовая оптимизация, более чистая on-page структура и лучшая техническая база." }
+          ]
+        },
+        pricing: {
+          kicker: "Планы",
+          title: "Понятные планы для бизнеса и частных клиентов",
+          copy: "Бизнес-план рекомендуется тогда, когда цель это стабильный рост, более сильная видимость в поиске и надежная среда сайта.",
+          plans: [
+            {
+              featured: true,
+              band: "Рекомендуется",
+              title: "Recommended plan for business",
+              intro: "Для бизнеса, который хочет более стабильные позиции, больше доверия и меньше технических проблем в долгую.",
+              seoLabel: "SEO",
+              seoPrice: "€99 / месяц",
+              seoPoints: ["Необходимо из-за конкуренции", "Защита от Google update", "Более стабильный ranking со временем"],
+              hostLabel: "Hosting",
+              hostPrice: "€15 / месяц",
+              hostPoints: ["Custom server решение", "Меньше ошибок и сбоев", "Более быстрая загрузка"]
+            },
+            {
+              featured: false,
+              band: "Частный",
+              title: "For private people",
+              intro: "Более легкий план для личных сайтов и небольших проектов, которым все равно нужна аккуратная SEO база.",
+              seoLabel: "SEO",
+              seoPrice: "€94 / год (разово)",
+              seoPoints: ["Basic SEO", "150 keywords", "Level 3 SEO optimization"],
+              hostLabel: "Hosting",
+              hostPrice: "€4 / месяц",
+              hostPoints: ["Storage usage", "Basic hosting", "Простая бюджетная схема"]
+            }
+          ]
+        },
+        seo: {
+          kicker: "Польза SEO",
+          title: "Чем SEO полезно для реального бизнеса",
+          copy: "SEO важно, потому что усиливает видимость, доверие и первый цифровой эффект. Цель это не только визиты. Цель это лучший результат для бизнеса.",
+          cards: [
+            { icon: "GR", title: "Google ranking", copy: "Более структурированный сайт дает Google более четкие сигналы и помогает лучше конкурировать в поиске." },
+            { icon: "TR", title: "Больше traffic", copy: "Лучшая видимость повышает шанс получать более стабильный поток посетителей из поиска." },
+            { icon: "CL", title: "Больше клиентов", copy: "Сильная страница с более чистой SEO поддержкой легче превращает интерес в реальный контакт." }
+          ]
+        },
+        portfolio: {
+          kicker: "Портфолио",
+          title: "Реальные примеры проектов для бизнеса",
+          copy: "Эти карточки показывают сильное направление: понятная структура, ясность услуг, доверие и легкий контакт. У каждого сайта есть бизнес-цель, а не только внешний вид.",
+          open: "Открыть проект",
+          items: [
+            { domain: "gedolangai.lt", category: "Окна / улучшение дома", goal: "Направление сайта для бизнеса по улучшению дома, которому нужна более понятная подача услуг и больше доверия.", image: "./images/santechnikasklaipedoje.jpeg", href: "https://gedolangai.lt/" },
+            { domain: "bituminisstogas.lt", category: "Кровельные услуги", goal: "Более сильное цифровое присутствие для битумной кровли с более понятной структурой и удобным mobile видом.", image: "./images/bituminisstogas.jpg", href: "https://bituminisstogas.lt/" },
+            { domain: "jonoelektra.lt", category: "Услуги электрика", goal: "Серьезный локальный сервисный сайт, который показывает надежность и делает связь с клиентом легче.", image: "./images/jonoelektra.png", href: "https://jonoelektra.lt/" },
+            { domain: "elektroasas.lt", category: "Электромонтажные услуги", goal: "Чистое направление бизнес-сайта для электромонтажных работ, ясности услуг и более уверенных заявок.", image: "./images/elektroasas.jpg", href: "https://elektroasas.lt/" }
+          ]
+        },
+        faq: {
+          kicker: "FAQ",
+          title: "Понятные ответы до сообщения",
+          copy: "Если сначала нужен короткий обзор, здесь самые частые вопросы.",
+          items: [
+            { q: "Сколько стоит сайт?", a: "Большинство проектов начинается от €120 и растет в зависимости от объема, количества страниц, глубины дизайна и нужной поддержки." },
+            { q: "Как быстро ты можешь его сделать?", a: "Первый концепт можно показать быстро. Полная реализация зависит от объема проекта, но общение остается быстрым." },
+            { q: "Можно связаться через WhatsApp или Viber?", a: "Да. Доступны WhatsApp, Viber, email, SMS и прямой звонок." },
+            { q: "Ты работаешь с международными клиентами?", a: "Да. Есть поддержка на литовском, английском и русском, а структура подходит и для более широких международных проектов." }
+          ]
+        },
+        contact: {
+          kicker: "Контакты",
+          title: "Если вам нужен сайт, самый быстрый шаг это сообщение",
+          copy: "Отправьте короткое сообщение с названием бизнеса или идеей, и я покажу направление, цену и что лучше подойдет вашему проекту."
+        },
+        contactCards: [
+          { label: "Телефон", value: "+37064865237", copy: "Звоните напрямую, если нужен самый быстрый путь." },
+          { label: "Email", value: "elainearess@gmail.com", copy: "Удобно, если хотите отправить более подробное сообщение о проекте." },
+          { label: "Скорость", value: "В течение 5 минут", copy: "Быстрая коммуникация держит проект в движении." }
+        ],
+        footer: {
+          note: "Elaine Ares создает сайты, лендинги и SEO-ready структуру для бизнеса, которому нужен современный результат без тяжелого агентского процесса.",
+          speed: "Скидка 10% если ответ дольше 5 минут"
+        },
+        chat: {
+          title: "Быстрые ответы",
+          button: "Чат",
+          hello: "Выберите один из быстрых вопросов ниже, и ответ появится сразу.",
+          questions: ["Сколько стоит сайт?", "Как быстро ты можешь его сделать?", "Можно написать в WhatsApp?", "Ты работаешь международно?"],
+          answers: [
+            "Большинство сайтов начинается от €120 и растет в зависимости от количества страниц, визуала и уровня поддержки.",
+            "Концепт можно подготовить быстро. Финальный срок зависит от объема, но коммуникация остается быстрой.",
+            "Да. Доступны WhatsApp, Viber, email, SMS и звонок.",
+            "Да. Сайт адаптирован для литовской, английской и русской аудитории, а также более широких клиентов."
+          ]
+        }
+      }
+    };
+
+    const langNames = { en: "EN", lt: "LT", ru: "RU" };
+    let currentLang = "en";
+    let announcementIndex = 0;
+    let announcementTimer = null;
+
+    const $ = (selector, parent = document) => parent.querySelector(selector);
+    const $$ = (selector, parent = document) => [...parent.querySelectorAll(selector)];
+    const getValue = (obj, path) => path.split(".").reduce((acc, key) => acc && acc[key] !== undefined ? acc[key] : "", obj);
+
+    function detectLanguage() {
+      const saved = localStorage.getItem("elaine_ares_lang");
+      if (saved && content[saved]) return saved;
+      return (navigator.language || "").toLowerCase().startsWith("lt") ? "lt" : "en";
+    }
+
+    function setMeta(data) {
+      document.documentElement.lang = currentLang;
+      document.title = data.meta.title;
+      $('meta[name="description"]').setAttribute("content", data.meta.description);
+      $('meta[property="og:title"]').setAttribute("content", data.meta.title);
+      $('meta[property="og:description"]').setAttribute("content", data.meta.description);
+      $('meta[name="twitter:title"]').setAttribute("content", data.meta.title);
+      $('meta[name="twitter:description"]').setAttribute("content", data.meta.description);
+    }
+
+    function renderLanguageMenu() {
+      $("#currentLanguage").textContent = langNames[currentLang];
+      $("#langMenu").innerHTML = Object.keys(langNames).map((lang) => `
+        <button type="button" class="${lang === currentLang ? "active" : ""}" data-lang="${lang}">
+          ${langNames[lang]} ${content[lang].codeLong}
+        </button>
+      `).join("");
+    }
+
+    function renderStaticText(data) {
+      $$("[data-i18n]").forEach((node) => {
+        const value = getValue(data, node.dataset.i18n);
+        if (value) node.textContent = value;
+      });
+    }
+
+    function renderHero(data) {
+      $("#heroTrust").innerHTML = data.hero.trust.map((item) => `<span class="chip">${item}</span>`).join("");
+      $("#heroStats").innerHTML = data.hero.stats.map((item) => `
+        <div class="mini-stat">
+          <strong>${item[0]}</strong>
+          <span>${item[1]}</span>
+        </div>
+      `).join("");
+      $("#priceRow").innerHTML = data.hero.prices.map((item, index) => `
+        <div class="price-card ${index === 1 ? "live" : ""}">
+          <div class="price-head">
+            <div class="price-label">${item.label}</div>
+            <div class="price-badge">${item.badge}</div>
+          </div>
+          <div class="price-value">${item.value}</div>
+          <div class="price-note">${item.note}</div>
+          ${item.live ? `<div class="live-badge">${item.live}</div>` : ""}
+        </div>
+      `).join("");
+    }
+
+    function renderCards(containerId, items) {
+      $(containerId).innerHTML = items.map((card) => `
+        <article class="card reveal">
+          <span class="card-icon">${card.icon}</span>
+          <h3>${card.title}</h3>
+          <p>${card.copy}</p>
+        </article>
+      `).join("");
+    }
+
+    function renderPlans(data) {
+      $("#plansGrid").innerHTML = data.pricing.plans.map((plan) => `
+        <article class="plan-card ${plan.featured ? "featured" : ""} reveal">
+          <span class="plan-band">${plan.band}</span>
+          <h3 class="plan-title">${plan.title}</h3>
+          <p class="plan-copy">${plan.intro}</p>
+          <div class="plan-stack">
+            <div class="plan-block">
+              <div class="plan-label">${plan.seoLabel}</div>
+              <div class="plan-price">${plan.seoPrice}</div>
+              <ul class="plan-list">${plan.seoPoints.map((point) => `<li>${point}</li>`).join("")}</ul>
+            </div>
+            <div class="plan-block">
+              <div class="plan-label">${plan.hostLabel}</div>
+              <div class="plan-price">${plan.hostPrice}</div>
+              <ul class="plan-list">${plan.hostPoints.map((point) => `<li>${point}</li>`).join("")}</ul>
+            </div>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function renderPortfolio(data) {
+      $("#portfolioGrid").innerHTML = data.portfolio.items.map((item) => `
+        <a class="portfolio-card reveal" href="${item.href}" target="_blank" rel="noopener">
+          <div class="portfolio-preview" style="--image:url('${item.image}')">
+            <div class="mock-browser">
+              <div class="mock-top"><i></i><i></i><i></i></div>
+              <div class="mock-body"><div class="domain">${item.domain}</div></div>
+            </div>
+          </div>
+          <div class="portfolio-meta">
+            <div class="portfolio-category">${item.category}</div>
+            <p class="portfolio-goal">${item.goal}</p>
+            <span class="portfolio-open">${data.portfolio.open}</span>
+          </div>
+        </a>
+      `).join("");
+    }
+
+    function renderFaq(data) {
+      $("#faqGrid").innerHTML = data.faq.items.map((item, index) => `
+        <div class="faq-item ${index === 0 ? "open" : ""}">
+          <button class="faq-question" type="button">
+            <span>${item.q}</span>
+            <strong>+</strong>
+          </button>
+          <div class="faq-answer-wrap" style="${index === 0 ? "max-height:220px;" : ""}">
+            <p class="faq-answer">${item.a}</p>
+          </div>
+        </div>
+      `).join("");
+
+      $$(".faq-item").forEach((item) => {
+        $(".faq-question", item).addEventListener("click", () => {
+          const open = item.classList.contains("open");
+          $$(".faq-item").forEach((card) => {
+            card.classList.remove("open");
+            $(".faq-answer-wrap", card).style.maxHeight = "0px";
+          });
+          if (!open) {
+            item.classList.add("open");
+            const wrap = $(".faq-answer-wrap", item);
+            wrap.style.maxHeight = `${wrap.scrollHeight + 12}px`;
+          }
+        });
+      });
+    }
+
+    function renderContact(data) {
+      $("#contactCards").innerHTML = data.contactCards.map((card) => `
+        <article class="card reveal">
+          <div class="contact-label">${card.label}</div>
+          <div class="contact-value">${card.value}</div>
+          <p>${card.copy}</p>
+        </article>
+      `).join("");
+    }
+
+    function renderChat(data) {
+      $("#chatThread").innerHTML = `<div class="message bot">${data.chat.hello}</div>`;
+      $("#chatQuestions").innerHTML = data.chat.questions.map((question, index) => `
+        <button class="chat-question" type="button" data-question="${index}">${question}</button>
+      `).join("");
+
+      $$(".chat-question").forEach((button) => {
+        button.addEventListener("click", () => {
+          const index = Number(button.dataset.question);
+          $("#chatThread").insertAdjacentHTML(
+            "beforeend",
+            `<div class="message user">${data.chat.questions[index]}</div><div class="message bot">${data.chat.answers[index]}</div>`
+          );
+        });
+      });
+    }
+
+    function runAnnouncements(data) {
+      clearInterval(announcementTimer);
+      announcementIndex = 0;
+      $("#announcementText").textContent = data.announcements[0];
+      announcementTimer = setInterval(() => {
+        announcementIndex = (announcementIndex + 1) % data.announcements.length;
+        $("#announcementText").textContent = data.announcements[announcementIndex];
+      }, 3200);
+    }
+
+    function revealObserver() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add("show");
+        });
+      }, { threshold: 0.15 });
+
+      $$(".reveal").forEach((node) => observer.observe(node));
+    }
+
+    function applyLanguage(lang) {
+      currentLang = content[lang] ? lang : "en";
+      localStorage.setItem("elaine_ares_lang", currentLang);
+      const data = content[currentLang];
+
+      setMeta(data);
+      renderLanguageMenu();
+      renderStaticText(data);
+      renderHero(data);
+      renderCards("#aboutCards", data.about.cards);
+      renderCards("#servicesGrid", data.services.items);
+      renderPlans(data);
+      renderCards("#seoCards", data.seo.cards);
+      renderPortfolio(data);
+      renderFaq(data);
+      renderContact(data);
+      renderChat(data);
+      runAnnouncements(data);
+      revealObserver();
+    }
+
+    function initDropdown() {
+      $("#langTrigger").addEventListener("click", () => {
+        $("#langSelect").classList.toggle("open");
+      });
+
+      document.addEventListener("click", (event) => {
+        if (!$("#langSelect").contains(event.target)) {
+          $("#langSelect").classList.remove("open");
+        }
+
+        const button = event.target.closest("[data-lang]");
+        if (button) {
+          applyLanguage(button.dataset.lang);
+          $("#langSelect").classList.remove("open");
+        }
+      });
+    }
+
+    function initMobileMenu() {
+      $("#menuToggle").addEventListener("click", () => {
+        const active = !$("#mobileMenu").classList.contains("active");
+        $("#mobileMenu").classList.toggle("active", active);
+        $("#menuToggle").classList.toggle("active", active);
+        document.body.classList.toggle("menu-open", active);
+      });
+
+      $$("#mobileMenu a").forEach((link) => {
+        link.addEventListener("click", () => {
+          $("#mobileMenu").classList.remove("active");
+          $("#menuToggle").classList.remove("active");
+          document.body.classList.remove("menu-open");
+        });
+      });
+    }
+
+    function initChat() {
+      $("#chatToggle").addEventListener("click", () => {
+        const open = !$("#chatPanel").classList.contains("open");
+        $("#chatPanel").classList.toggle("open", open);
+        document.body.classList.toggle("chat-open", open);
+      });
+
+      $("#chatClose").addEventListener("click", () => {
+        $("#chatPanel").classList.remove("open");
+        document.body.classList.remove("chat-open");
+      });
+    }
+
+    function initScrollEffects() {
+      window.addEventListener("scroll", () => {
+        const top = window.scrollY;
+        const height = document.documentElement.scrollHeight - window.innerHeight;
+        $("#progress").style.width = `${height > 0 ? (top / height) * 100 : 0}%`;
+        $("#nav").classList.toggle("scrolled", top > 18);
+      }, { passive: true });
+    }
+
+    function initVideo() {
+      const video = $("#bgVideo");
+      const setRate = () => { video.playbackRate = 0.44; };
+      setRate();
+      video.addEventListener("loadedmetadata", setRate);
+      video.addEventListener("canplay", setRate);
+      video.play().catch(() => {});
+    }
+
+    function init() {
+      currentLang = detectLanguage();
+      applyLanguage(currentLang);
+      initDropdown();
+      initMobileMenu();
+      initChat();
+      initScrollEffects();
+      initVideo();
+    }
+
+    init();
+  </script>
+</body>
+</html>
