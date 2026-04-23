@@ -1,0 +1,2393 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#000000">
+    <title>Elaine Ares</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="images/elaine.png">
+    <style>
+      :root {
+        --black: #000000;
+        --yellow: #ffd400;
+        --yellow-soft: rgba(255, 212, 0, 0.72);
+        --yellow-muted: rgba(255, 212, 0, 0.46);
+        --yellow-faint: rgba(255, 212, 0, 0.14);
+        --panel: rgba(0, 0, 0, 0.88);
+        --ease: cubic-bezier(0.22, 1, 0.36, 1);
+        --mona-size: clamp(270px, 30vw, 410px);
+        --mona-highlight-radius: clamp(54px, 8vw, 104px);
+        --mona-highlight-opacity: 0.92;
+        --text-highlight-radius: clamp(44px, 6vw, 78px);
+        --red: #ff2a16;
+        --chat-blue: #00a7ff;
+        --chat-blue-bright: #4fd6ff;
+        --chat-blue-soft: rgba(0, 167, 255, 0.2);
+        --chat-blue-faint: rgba(0, 167, 255, 0.1);
+        --chat-size: 86px;
+        --chat-margin: 28px;
+        --structure-size: clamp(330px, 44vw, 620px);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        min-height: 100%;
+        background: var(--black);
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background: var(--black);
+        color: var(--yellow);
+        font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        letter-spacing: 0;
+        animation: pageIn 420ms var(--ease) forwards;
+      }
+
+      body.is-leaving {
+        opacity: 0;
+        transition: opacity 240ms var(--ease);
+      }
+
+      body.has-custom-cursor,
+      body.has-custom-cursor button {
+        cursor: none;
+      }
+
+      button {
+        border: 0;
+        color: inherit;
+        font: inherit;
+      }
+
+      .site-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: clamp(18px, 3vw, 30px) clamp(22px, 5vw, 72px);
+        pointer-events: none;
+      }
+
+      .brand-home {
+        display: inline-flex;
+        align-items: center;
+        min-height: 38px;
+        padding: 0 14px;
+        border: 1px solid rgba(255, 212, 0, 0.58);
+        color: var(--yellow);
+        background: rgba(0, 0, 0, 0.68);
+        text-decoration: none;
+        font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+        font-weight: 700;
+        letter-spacing: 0;
+        pointer-events: auto;
+        transition: background-color 220ms var(--ease), color 220ms var(--ease), border-color 220ms var(--ease), transform 220ms var(--ease);
+      }
+
+      .brand-home:hover,
+      .brand-home:focus-visible {
+        border-color: var(--yellow);
+        background: var(--yellow);
+        color: var(--black);
+        outline: 0;
+        transform: translateY(-1px);
+      }
+
+      .screen {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        background: var(--black);
+      }
+
+      .preloader {
+        z-index: 20;
+        opacity: 1;
+        transition: opacity 760ms var(--ease), visibility 760ms var(--ease);
+      }
+
+      .preloader::before,
+      .preloader::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      .preloader::before {
+        background:
+          linear-gradient(90deg, transparent 0 96%, var(--yellow-faint) 96% 100%),
+          linear-gradient(0deg, transparent 0 96%, var(--yellow-faint) 96% 100%);
+        background-size: 52px 52px;
+        mask-image: radial-gradient(circle at center, black 0 34%, transparent 72%);
+        opacity: 0.32;
+        animation: gridDrift 2.2s linear infinite;
+      }
+
+      .preloader::after {
+        background:
+          linear-gradient(180deg, transparent, rgba(255, 212, 0, 0.18), transparent),
+          repeating-linear-gradient(180deg, transparent 0 7px, rgba(255, 212, 0, 0.035) 8px);
+        opacity: 0.36;
+        transform: translateY(-100%);
+        animation: scan 2s var(--ease) forwards;
+      }
+
+      .preloader.is-hidden {
+        visibility: hidden;
+        opacity: 0;
+      }
+
+      .intro {
+        position: relative;
+        z-index: 1;
+        width: min(620px, calc(100vw - 36px));
+        display: grid;
+        justify-items: center;
+        gap: clamp(28px, 6vw, 48px);
+        padding: clamp(28px, 7vw, 54px);
+      }
+
+      .brand-lockup {
+        display: grid;
+        justify-items: center;
+        gap: 18px;
+      }
+
+      .brand-mark {
+        width: clamp(132px, 30vw, 220px);
+        aspect-ratio: 16 / 9;
+        display: grid;
+        place-items: center;
+        border: 1px solid var(--yellow);
+        box-shadow: 0 0 0 1px rgba(255, 212, 0, 0.08), 0 0 42px rgba(255, 212, 0, 0.2);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .brand-mark::before {
+        content: "";
+        position: absolute;
+        inset: -35%;
+        background: conic-gradient(from 180deg, transparent, rgba(255, 212, 0, 0.36), transparent 34%);
+        animation: markSweep 1.8s linear infinite;
+      }
+
+      .brand-mark::after {
+        content: "";
+        position: absolute;
+        inset: 7px;
+        background: var(--black);
+        border: 1px solid rgba(255, 212, 0, 0.42);
+      }
+
+      .brand-logo {
+        position: relative;
+        z-index: 1;
+        width: 78%;
+        height: 78%;
+        object-fit: contain;
+        filter: invert(1) sepia(1) saturate(7800%) hue-rotate(359deg) brightness(1.04) contrast(1.05);
+        mix-blend-mode: normal;
+      }
+
+      .brand-name {
+        margin: 0;
+        font-size: clamp(2.35rem, 9vw, 5.6rem);
+        font-weight: 700;
+        line-height: 0.9;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .terminal {
+        width: min(440px, 100%);
+        border: 1px solid var(--yellow);
+        background: rgba(0, 0, 0, 0.74);
+        box-shadow: 0 0 28px rgba(255, 212, 0, 0.11);
+      }
+
+      .terminal-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 36px;
+        padding: 0 13px;
+        border-bottom: 1px solid var(--yellow-faint);
+      }
+
+      .terminal-dots {
+        display: flex;
+        gap: 7px;
+      }
+
+      .terminal-dot {
+        width: 6px;
+        height: 6px;
+        border: 1px solid var(--yellow);
+        border-radius: 50%;
+      }
+
+      .terminal-path {
+        color: var(--yellow-soft);
+        font-size: 0.74rem;
+        font-weight: 500;
+      }
+
+      .terminal-lines {
+        display: grid;
+        gap: 10px;
+        padding: 18px;
+        font-size: clamp(0.78rem, 2.5vw, 0.92rem);
+        font-weight: 500;
+      }
+
+      .line {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 1.25em;
+        color: var(--yellow-muted);
+        opacity: 0;
+        transform: translateY(6px);
+        animation: lineIn 420ms var(--ease) forwards;
+      }
+
+      .line:nth-child(2) {
+        animation-delay: 260ms;
+      }
+
+      .line:nth-child(3) {
+        animation-delay: 520ms;
+      }
+
+      .line:nth-child(4) {
+        animation-delay: 780ms;
+      }
+
+      .prompt {
+        color: var(--yellow);
+      }
+
+      .cursor {
+        display: inline-block;
+        width: 0.58em;
+        height: 1.15em;
+        margin-left: 2px;
+        background: var(--yellow);
+        vertical-align: -0.18em;
+        animation: blink 720ms steps(2, start) infinite;
+      }
+
+      .language-layer {
+        z-index: 10;
+        padding: 20px;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 720ms var(--ease), visibility 720ms var(--ease);
+      }
+
+      .language-layer.is-visible {
+        visibility: visible;
+        opacity: 1;
+      }
+
+      .language-layer.is-selected {
+        visibility: visible;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .language-layer.is-selected .language-panel {
+        filter: blur(8px);
+        transform: translateY(-18px) scale(0.96);
+      }
+
+      .language-panel {
+        width: min(430px, 100%);
+        padding: clamp(28px, 7vw, 42px);
+        border: 1px solid var(--yellow);
+        background: var(--panel);
+        box-shadow: 0 0 0 1px rgba(255, 212, 0, 0.08), 0 0 52px rgba(255, 212, 0, 0.16);
+        transform: translateY(18px) scale(0.98);
+        transition: transform 720ms var(--ease);
+      }
+
+      .language-layer.is-visible .language-panel {
+        transform: translateY(0) scale(1);
+      }
+
+      .language-title {
+        margin: 0 0 26px;
+        font-size: clamp(1.8rem, 8vw, 3.25rem);
+        font-weight: 700;
+        line-height: 0.96;
+        text-align: center;
+      }
+
+      .language-options {
+        display: grid;
+        gap: 12px;
+      }
+
+      .language-button {
+        width: 100%;
+        min-height: 58px;
+        padding: 0 20px;
+        border: 1px solid var(--yellow);
+        background: transparent;
+        color: var(--yellow);
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 700;
+        line-height: 1;
+        transition: background-color 240ms var(--ease), color 240ms var(--ease), transform 240ms var(--ease), box-shadow 240ms var(--ease);
+      }
+
+      .language-button:hover,
+      .language-button:focus-visible {
+        background: var(--yellow);
+        color: var(--black);
+        outline: 0;
+        transform: translateY(-2px);
+        box-shadow: 0 0 30px rgba(255, 212, 0, 0.22);
+      }
+
+      .language-button:active {
+        transform: translateY(0);
+      }
+
+      .language-button:disabled {
+        pointer-events: none;
+      }
+
+      .site-stage {
+        position: relative;
+        min-height: 100vh;
+        background: var(--black);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 980ms var(--ease), visibility 980ms var(--ease);
+      }
+
+      .site-stage.is-visible {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .hero {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: minmax(180px, 0.88fr) minmax(260px, var(--mona-size)) minmax(220px, 1fr);
+        align-items: center;
+        gap: clamp(30px, 5vw, 78px);
+        padding: clamp(28px, 6vw, 88px);
+      }
+
+      .hero-copy {
+        width: min(100%, 320px);
+        justify-self: end;
+        opacity: 0;
+        filter: blur(8px);
+        transform: translateX(-18px) translateY(8px);
+        transition: opacity 920ms var(--ease), filter 920ms var(--ease), transform 920ms var(--ease);
+        transition-delay: 80ms;
+      }
+
+      .site-stage.is-visible .hero-copy {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateX(0);
+      }
+
+      .hero-services {
+        display: grid;
+        gap: 14px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .hero-services li {
+        --text-x: 50%;
+        --text-y: 50%;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        padding-left: 14px;
+        border-left: 1px solid var(--yellow);
+        color: var(--yellow);
+        font-size: clamp(1.04rem, 1.4vw, 1.34rem);
+        font-weight: 700;
+        line-height: 1;
+        position: relative;
+        text-shadow: 0 0 18px rgba(255, 212, 0, 0.2);
+      }
+
+      .hero-services li::before {
+        content: attr(data-highlight);
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        padding-left: 14px;
+        z-index: 2;
+        color: var(--red);
+        opacity: 0;
+        pointer-events: none;
+        text-shadow: 0 0 16px rgba(255, 42, 22, 0.46);
+        transition: opacity 220ms var(--ease);
+        white-space: nowrap;
+        -webkit-mask-image: radial-gradient(
+          circle var(--text-highlight-radius) at var(--text-x) var(--text-y),
+          #000 0%,
+          rgba(0, 0, 0, 0.96) 42%,
+          transparent 78%
+        );
+        mask-image: radial-gradient(
+          circle var(--text-highlight-radius) at var(--text-x) var(--text-y),
+          #000 0%,
+          rgba(0, 0, 0, 0.96) 42%,
+          transparent 78%
+        );
+      }
+
+      .hero-services li.is-text-active::before {
+        opacity: 1;
+      }
+
+      .service-line {
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-support {
+        margin: 24px 0 0;
+        padding-left: 14px;
+        max-width: 30ch;
+        color: var(--yellow-soft);
+        font-size: clamp(0.92rem, 1.05vw, 1.02rem);
+        font-weight: 500;
+        line-height: 1.55;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 22px;
+        padding-left: 14px;
+      }
+
+      .hero-cta {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 16px;
+        border: 1px solid rgba(255, 212, 0, 0.72);
+        color: var(--yellow);
+        background: transparent;
+        text-decoration: none;
+        font-size: 0.86rem;
+        font-weight: 700;
+        line-height: 1;
+        transition: background-color 220ms var(--ease), color 220ms var(--ease), border-color 220ms var(--ease), transform 220ms var(--ease);
+      }
+
+      .hero-cta:hover,
+      .hero-cta:focus-visible {
+        border-color: var(--yellow);
+        background: var(--yellow);
+        color: var(--black);
+        outline: 0;
+        transform: translateY(-2px);
+      }
+
+      .mona-stage {
+        width: min(var(--mona-size), calc((100vh - clamp(56px, 12vw, 176px)) * 0.624));
+        justify-self: center;
+        opacity: 0;
+        filter: blur(9px);
+        transform: translateY(24px) scale(0.982);
+        transition: opacity 1080ms var(--ease), filter 1080ms var(--ease), transform 1080ms var(--ease);
+        transition-delay: 170ms;
+      }
+
+      .site-stage.is-visible .mona-stage {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0) scale(1);
+      }
+
+      .mona-art {
+        --spot-x: 50%;
+        --spot-y: 50%;
+        position: relative;
+        width: 100%;
+        aspect-ratio: 562 / 900;
+        overflow: hidden;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .mona-image {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        user-select: none;
+        pointer-events: none;
+      }
+
+      .mona-base {
+        opacity: 0.9;
+        filter: brightness(0.8) contrast(1.08) saturate(0.72);
+      }
+
+      .mona-yellow {
+        opacity: 0;
+        filter: sepia(1) saturate(7800%) hue-rotate(359deg) brightness(1.05) contrast(1.06);
+        transition: opacity 260ms var(--ease);
+        -webkit-mask-image: radial-gradient(
+          circle var(--mona-highlight-radius) at var(--spot-x) var(--spot-y),
+          #000 0%,
+          rgba(0, 0, 0, 0.98) 32%,
+          rgba(0, 0, 0, 0.48) 58%,
+          transparent 78%
+        );
+        mask-image: radial-gradient(
+          circle var(--mona-highlight-radius) at var(--spot-x) var(--spot-y),
+          #000 0%,
+          rgba(0, 0, 0, 0.98) 32%,
+          rgba(0, 0, 0, 0.48) 58%,
+          transparent 78%
+        );
+      }
+
+      .mona-art.is-active .mona-yellow {
+        opacity: var(--mona-highlight-opacity);
+      }
+
+      .hero-right {
+        width: min(100%, 360px);
+        justify-self: start;
+        opacity: 0;
+        filter: blur(8px);
+        transform: translateX(18px) translateY(8px);
+        transition: opacity 920ms var(--ease), filter 920ms var(--ease), transform 920ms var(--ease);
+        transition-delay: 260ms;
+      }
+
+      .site-stage.is-visible .hero-right {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateX(0);
+      }
+
+      .right-nav {
+        display: grid;
+        gap: 12px;
+      }
+
+      .right-nav-link {
+        min-height: 58px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 0 18px;
+        border: 1px solid rgba(255, 212, 0, 0.62);
+        color: var(--yellow);
+        text-decoration: none;
+        font-size: clamp(1rem, 1.25vw, 1.2rem);
+        font-weight: 700;
+        line-height: 1;
+        background: rgba(0, 0, 0, 0.42);
+        position: relative;
+        overflow: hidden;
+        transition: border-color 240ms var(--ease), background-color 240ms var(--ease), color 240ms var(--ease), transform 240ms var(--ease);
+      }
+
+      .right-nav-link::before {
+        content: attr(data-index);
+        color: var(--yellow-muted);
+        font-size: 0.72rem;
+        font-weight: 600;
+      }
+
+      .right-nav-link::after {
+        content: ">";
+        color: var(--yellow-muted);
+        font-weight: 500;
+      }
+
+      .right-nav-link:hover,
+      .right-nav-link:focus-visible {
+        border-color: var(--yellow);
+        background: var(--yellow);
+        color: var(--black);
+        outline: 0;
+        transform: translateX(4px);
+      }
+
+      .right-nav-link:hover::before,
+      .right-nav-link:focus-visible::before,
+      .right-nav-link:hover::after,
+      .right-nav-link:focus-visible::after {
+        color: var(--black);
+      }
+
+      .hero-services li,
+      .hero-services li::before,
+      .service-line {
+        text-shadow: none;
+        filter: none;
+        box-shadow: none;
+      }
+
+      .service-line {
+        font-weight: 700;
+      }
+
+      .geo-dots {
+        display: inline-flex;
+        width: 1.05em;
+        justify-content: space-between;
+        margin-left: 0.05em;
+        vertical-align: baseline;
+      }
+
+      .geo-dots span {
+        display: inline-block;
+        opacity: 0.26;
+        transform: translateY(0);
+        animation: geoDotPulse 1.35s var(--ease) infinite;
+      }
+
+      .geo-dots span:nth-child(2) {
+        animation-delay: 160ms;
+      }
+
+      .geo-dots span:nth-child(3) {
+        animation-delay: 320ms;
+      }
+
+      .structure-section {
+        min-height: 112vh;
+        width: 100%;
+        padding: clamp(78px, 9vw, 132px) clamp(18px, 5vw, 84px);
+        border-top: 1px solid rgba(255, 212, 0, 0.16);
+        border-bottom: 1px solid rgba(255, 212, 0, 0.16);
+        background: var(--black);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .structure-section::before {
+        content: none;
+      }
+
+      .structure-canvas-wrap {
+        width: min(100%, 1280px);
+        height: min(680px, 76vh);
+        min-height: 470px;
+        margin: 0 auto;
+        border: 1px solid rgba(255, 212, 0, 0.26);
+        position: relative;
+        background: rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+      }
+
+      .structure-canvas-wrap::before,
+      .structure-canvas-wrap::after {
+        content: "";
+        position: absolute;
+        width: clamp(46px, 6vw, 82px);
+        height: clamp(46px, 6vw, 82px);
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .structure-canvas-wrap::before {
+        top: 14px;
+        left: 14px;
+        border-top: 1px solid var(--yellow);
+        border-left: 1px solid var(--yellow);
+      }
+
+      .structure-canvas-wrap::after {
+        right: 14px;
+        bottom: 14px;
+        border-right: 1px solid var(--yellow);
+        border-bottom: 1px solid var(--yellow);
+      }
+
+      .structure-canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+        opacity: 1;
+        filter: blur(0);
+        transition: opacity 1250ms var(--ease), filter 1250ms var(--ease);
+      }
+
+      .structure-section.is-text-ready .structure-canvas {
+        opacity: 0;
+        filter: blur(3px);
+      }
+
+      .structure-final-copy {
+        position: absolute;
+        top: 22%;
+        left: 52%;
+        z-index: 3;
+        width: min(40%, 520px);
+        color: var(--yellow);
+        opacity: 0;
+        filter: blur(8px);
+        transform: translateY(14px) scale(0.992);
+        pointer-events: none;
+        transition: opacity 1050ms var(--ease) 180ms, filter 1050ms var(--ease) 180ms, transform 1050ms var(--ease) 180ms;
+      }
+
+      .structure-section.is-text-ready .structure-final-copy {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+      }
+
+      .structure-final-label,
+      .structure-final-title,
+      .structure-final-text {
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 780ms var(--ease), transform 780ms var(--ease);
+      }
+
+      .structure-section.is-text-ready .structure-final-label,
+      .structure-section.is-text-ready .structure-final-title,
+      .structure-section.is-text-ready .structure-final-text {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .structure-section.is-text-ready .structure-final-label {
+        transition-delay: 240ms;
+      }
+
+      .structure-section.is-text-ready .structure-final-title {
+        transition-delay: 320ms;
+      }
+
+      .structure-section.is-text-ready .structure-final-text {
+        transition-delay: 420ms;
+      }
+
+      .structure-final-label {
+        display: block;
+        margin-bottom: 18px;
+        color: var(--yellow-soft);
+        font-size: clamp(0.72rem, 1vw, 0.86rem);
+        font-weight: 700;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .structure-final-title {
+        margin: 0;
+        max-width: 11ch;
+        color: var(--yellow);
+        font-size: clamp(2.35rem, 4vw, 4.25rem);
+        font-weight: 700;
+        line-height: 0.96;
+      }
+
+      .structure-final-text {
+        width: min(100%, 520px);
+        margin: 26px 0 0;
+        color: var(--yellow-soft);
+        font-size: clamp(0.98rem, 1.25vw, 1.12rem);
+        font-weight: 500;
+        line-height: 1.55;
+      }
+
+      .structure-final-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        margin-top: 26px;
+        padding: 0 22px;
+        border: 1px solid var(--yellow);
+        color: var(--yellow);
+        background: transparent;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 700;
+        transition: background-color 220ms var(--ease), color 220ms var(--ease), transform 220ms var(--ease);
+      }
+
+      .structure-final-button:hover,
+      .structure-final-button:focus-visible {
+        background: var(--yellow);
+        color: var(--black);
+        outline: 0;
+        transform: translateY(-1px);
+      }
+
+      .structure-cta-hit {
+        position: absolute;
+        left: var(--cta-left, 66%);
+        top: var(--cta-top, 70%);
+        width: var(--cta-width, 156px);
+        height: var(--cta-height, 48px);
+        z-index: 2;
+        opacity: 0;
+      }
+
+      .structure-section.is-text-ready .structure-cta-hit {
+        pointer-events: none;
+      }
+
+      .site-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 22px clamp(22px, 5vw, 72px);
+        border-top: 1px solid rgba(255, 212, 0, 0.18);
+        color: var(--yellow-soft);
+        font-size: 0.82rem;
+        font-weight: 600;
+      }
+
+      .footer-brand {
+        color: var(--yellow);
+        font-weight: 700;
+      }
+
+      .footer-link {
+        color: var(--yellow-soft);
+        text-decoration: none;
+        transition: color 220ms var(--ease);
+      }
+
+      .footer-link:hover,
+      .footer-link:focus-visible {
+        color: var(--yellow);
+        outline: 0;
+      }
+
+      .custom-cursor,
+      .custom-cursor-dot {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        pointer-events: none;
+        opacity: 0;
+        will-change: transform;
+      }
+
+      .custom-cursor {
+        width: 30px;
+        height: 30px;
+        border: 1px solid rgba(255, 212, 0, 0.88);
+        border-radius: 50%;
+        box-shadow: 0 0 24px rgba(255, 212, 0, 0.16);
+        transform: translate3d(var(--cursor-ring-x, 50vw), var(--cursor-ring-y, 50vh), 0) translate(-50%, -50%) scale(var(--cursor-scale, 1));
+        transition: opacity 180ms var(--ease), width 220ms var(--ease), height 220ms var(--ease), border-color 220ms var(--ease), background-color 220ms var(--ease);
+      }
+
+      .custom-cursor-dot {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: var(--yellow);
+        box-shadow: 0 0 14px rgba(255, 212, 0, 0.82);
+        transform: translate3d(var(--cursor-dot-x, 50vw), var(--cursor-dot-y, 50vh), 0) translate(-50%, -50%);
+        transition: opacity 180ms var(--ease);
+      }
+
+      body.is-pointer-active .custom-cursor,
+      body.is-pointer-active .custom-cursor-dot {
+        opacity: 1;
+      }
+
+      body.cursor-over-art .custom-cursor {
+        width: 48px;
+        height: 48px;
+        border-color: var(--yellow);
+        background: rgba(255, 212, 0, 0.035);
+      }
+
+      body.cursor-over-text .custom-cursor {
+        border-color: rgba(255, 42, 22, 0.92);
+        box-shadow: 0 0 24px rgba(255, 42, 22, 0.22);
+      }
+
+      body.cursor-over-text .custom-cursor-dot {
+        background: var(--red);
+        box-shadow: 0 0 14px rgba(255, 42, 22, 0.82);
+      }
+
+      body.cursor-over-chatbot .custom-cursor {
+        border-color: rgba(79, 214, 255, 0.95);
+        box-shadow: none;
+      }
+
+      body.cursor-over-chatbot .custom-cursor-dot {
+        background: var(--chat-blue-bright);
+        box-shadow: none;
+      }
+
+      body.cursor-down {
+        --cursor-scale: 0.82;
+      }
+
+      .chatbot-widget {
+        position: fixed;
+        right: var(--chat-margin);
+        bottom: var(--chat-margin);
+        z-index: 80;
+        pointer-events: none;
+      }
+
+      .chatbot-launcher {
+        position: relative;
+        width: var(--chat-size);
+        aspect-ratio: 1;
+        display: grid;
+        place-items: center;
+        padding: 0;
+        border: 1px solid rgba(79, 214, 255, 0.55);
+        border-radius: 22px;
+        background: rgba(0, 8, 14, 0.72);
+        box-shadow: none;
+        opacity: 0;
+        pointer-events: none;
+        transform: translate3d(165px, -135px, 0) rotate(-7deg) scale(0.82);
+        transition: border-color 240ms var(--ease), background-color 240ms var(--ease), transform 240ms var(--ease);
+      }
+
+      .chatbot-widget.is-arrived {
+        pointer-events: auto;
+      }
+
+      .chatbot-widget.is-arrived .chatbot-launcher {
+        pointer-events: auto;
+        animation: ufoArrive 1850ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      .chatbot-launcher:hover,
+      .chatbot-launcher:focus-visible {
+        border-color: rgba(79, 214, 255, 0.95);
+        background: rgba(0, 15, 24, 0.86);
+        transform: translateY(-2px);
+        outline: 0;
+      }
+
+      .chatbot-icon {
+        width: 120%;
+        height: 120%;
+        object-fit: cover;
+        border-radius: 24px;
+        user-select: none;
+        pointer-events: none;
+      }
+
+      .chatbot-teaser {
+        position: absolute;
+        right: calc(var(--chat-size) + 14px);
+        bottom: 8px;
+        width: min(312px, calc(100vw - var(--chat-size) - 64px));
+        padding: 14px 38px 14px 16px;
+        border: 1px solid rgba(79, 214, 255, 0.46);
+        background: rgba(0, 8, 14, 0.9);
+        color: var(--chat-blue-bright);
+        box-shadow: none;
+        font-size: 0.9rem;
+        font-weight: 600;
+        line-height: 1.35;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(12px) scale(0.97);
+        transition: opacity 520ms var(--ease), visibility 520ms var(--ease), transform 520ms var(--ease);
+        pointer-events: none;
+      }
+
+      .chatbot-teaser.is-visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+      }
+
+      .chatbot-teaser-action {
+        display: block;
+        width: 100%;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .chatbot-teaser::after {
+        content: "";
+        position: absolute;
+        right: -7px;
+        bottom: 24px;
+        width: 12px;
+        height: 12px;
+        border-top: 1px solid rgba(79, 214, 255, 0.46);
+        border-right: 1px solid rgba(79, 214, 255, 0.46);
+        background: rgba(0, 8, 14, 0.9);
+        transform: rotate(45deg);
+      }
+
+      .chatbot-teaser-close,
+      .chat-panel-close {
+        display: grid;
+        place-items: center;
+        padding: 0;
+        color: var(--chat-blue-bright);
+        background: transparent;
+      }
+
+      .chatbot-teaser-close {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 22px;
+        height: 22px;
+        opacity: 0.72;
+      }
+
+      .chatbot-teaser-close:hover,
+      .chatbot-teaser-close:focus-visible,
+      .chat-panel-close:hover,
+      .chat-panel-close:focus-visible {
+        opacity: 1;
+        outline: 0;
+        text-shadow: none;
+      }
+
+      .chat-panel {
+        position: absolute;
+        right: 0;
+        bottom: calc(var(--chat-size) + 16px);
+        width: min(360px, calc(100vw - 40px));
+        height: min(450px, calc(100vh - 145px));
+        border: 1px solid rgba(79, 214, 255, 0.52);
+        background: #000000;
+        box-shadow: none;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(18px) scale(0.97);
+        transition: opacity 420ms var(--ease), visibility 420ms var(--ease), transform 420ms var(--ease);
+        pointer-events: none;
+      }
+
+      .chatbot-widget.is-open .chat-panel {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+      }
+
+      .chat-panel-header {
+        min-height: 72px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        border-bottom: 1px solid rgba(79, 214, 255, 0.26);
+        background: rgba(0, 8, 14, 0.96);
+      }
+
+      .chat-panel-icon {
+        width: 46px;
+        height: 46px;
+        border: 1px solid rgba(79, 214, 255, 0.36);
+        border-radius: 16px;
+        object-fit: cover;
+        box-shadow: none;
+      }
+
+      .chat-panel-name {
+        margin: 0;
+        flex: 1;
+        color: var(--chat-blue-bright);
+        font-size: 0.98rem;
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      .chat-panel-close {
+        width: 32px;
+        height: 32px;
+        border: 1px solid rgba(79, 214, 255, 0.24);
+      }
+
+      .chat-panel-body {
+        height: calc(100% - 72px);
+        display: grid;
+        grid-template-rows: 1fr auto;
+        background: #000000;
+      }
+
+      .chat-messages {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 14px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(79, 214, 255, 0.42) transparent;
+      }
+
+      .chat-message {
+        max-width: 84%;
+        padding: 10px 12px;
+        border: 1px solid rgba(79, 214, 255, 0.24);
+        background: rgba(0, 14, 22, 0.72);
+        color: rgba(224, 247, 255, 0.92);
+        font-size: 0.88rem;
+        font-weight: 500;
+        line-height: 1.38;
+        overflow-wrap: anywhere;
+      }
+
+      .chat-message.is-user {
+        align-self: flex-end;
+        border-color: rgba(79, 214, 255, 0.5);
+        background: rgba(0, 44, 66, 0.72);
+        color: #ffffff;
+      }
+
+      .chat-message.is-assistant {
+        align-self: flex-start;
+      }
+
+      .chat-input-form {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        padding: 12px;
+        border-top: 1px solid rgba(79, 214, 255, 0.26);
+        background: rgba(0, 8, 14, 0.96);
+      }
+
+      .chat-input {
+        min-width: 0;
+        height: 44px;
+        padding: 0 12px;
+        border: 1px solid rgba(79, 214, 255, 0.38);
+        background: #000000;
+        color: var(--chat-blue-bright);
+        font: inherit;
+        font-size: 0.9rem;
+        outline: 0;
+      }
+
+      .chat-input::placeholder {
+        color: rgba(79, 214, 255, 0.45);
+      }
+
+      .chat-input:focus {
+        border-color: rgba(79, 214, 255, 0.82);
+      }
+
+      .chat-send {
+        width: 46px;
+        height: 44px;
+        border: 1px solid rgba(79, 214, 255, 0.56);
+        background: rgba(0, 20, 32, 0.9);
+        color: var(--chat-blue-bright);
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      .chat-send:hover,
+      .chat-send:focus-visible {
+        border-color: rgba(79, 214, 255, 0.96);
+        background: rgba(0, 38, 56, 0.9);
+        outline: 0;
+      }
+
+      @keyframes gridDrift {
+        from {
+          background-position: 0 0;
+        }
+
+        to {
+          background-position: 52px 52px;
+        }
+      }
+
+      @keyframes scan {
+        0% {
+          transform: translateY(-100%);
+        }
+
+        100% {
+          transform: translateY(100%);
+        }
+      }
+
+      @keyframes markSweep {
+        to {
+          transform: rotate(1turn);
+        }
+      }
+
+      @keyframes lineIn {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+
+      @keyframes pageIn {
+        from {
+          opacity: 0;
+        }
+
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes ufoArrive {
+        0% {
+          opacity: 0;
+          transform: translate3d(180px, -155px, 0) rotate(-8deg) scale(0.78);
+        }
+
+        18% {
+          opacity: 1;
+          transform: translate3d(112px, -110px, 0) rotate(-5deg) scale(0.84);
+        }
+
+        54% {
+          opacity: 1;
+          transform: translate3d(24px, -44px, 0) rotate(2deg) scale(0.96);
+        }
+
+        78% {
+          transform: translate3d(-7px, 5px, 0) rotate(-1deg) scale(1.01);
+        }
+
+        100% {
+          opacity: 1;
+          transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+        }
+      }
+
+      @keyframes geoDotPulse {
+        0%,
+        68%,
+        100% {
+          opacity: 0.26;
+          transform: translateY(0);
+        }
+
+        28% {
+          opacity: 1;
+          transform: translateY(-0.08em);
+        }
+      }
+
+      @media (max-width: 520px) {
+        .intro {
+          gap: 30px;
+          padding-inline: 18px;
+        }
+
+        .terminal-lines {
+          padding: 16px;
+        }
+
+        .terminal-path {
+          font-size: 0.68rem;
+        }
+
+        .language-panel {
+          padding: 30px 20px;
+        }
+
+        .chatbot-teaser {
+          right: 0;
+          bottom: calc(var(--chat-size) + 12px);
+          width: min(292px, calc(100vw - 36px));
+        }
+
+        .chatbot-teaser::after {
+          right: 26px;
+          bottom: -7px;
+          border-top: 0;
+          border-left: 0;
+        }
+
+        .chat-panel {
+          right: 0;
+          bottom: calc(var(--chat-size) + 14px);
+          height: min(430px, calc(100vh - 128px));
+        }
+      }
+
+      @media (max-width: 900px) {
+        :root {
+          --mona-size: clamp(230px, 56vw, 340px);
+          --chat-size: 72px;
+          --chat-margin: 18px;
+          --structure-size: min(78vw, 340px);
+        }
+
+        .hero {
+          grid-template-columns: 1fr;
+          align-content: center;
+          justify-items: center;
+          gap: 30px;
+          padding: 28px 20px;
+        }
+
+        .hero-copy {
+          width: min(100%, 330px);
+          justify-self: center;
+          order: 1;
+          transform: translateY(-12px);
+        }
+
+        .mona-stage {
+          order: 2;
+          width: clamp(216px, calc((100svh - 255px) * 0.624), var(--mona-size));
+        }
+
+        .hero-right {
+          width: min(100%, 390px);
+          justify-self: center;
+          order: 3;
+          transform: translateY(12px);
+        }
+
+        .right-nav {
+          width: 100%;
+        }
+
+        .right-nav-link {
+          min-height: 54px;
+        }
+
+        .structure-section {
+          min-height: auto;
+          padding: 78px 18px;
+        }
+
+        .structure-canvas-wrap {
+          height: min(620px, 76vh);
+          min-height: 520px;
+        }
+
+        .structure-final-copy {
+          top: 42%;
+          left: 11%;
+          width: 78%;
+        }
+
+        .structure-final-label {
+          margin-bottom: 16px;
+        }
+
+        .structure-final-title {
+          max-width: 10ch;
+          font-size: clamp(2rem, 8vw, 2.85rem);
+        }
+
+        .structure-final-text {
+          margin-top: 20px;
+          font-size: 0.95rem;
+        }
+
+        .structure-final-button {
+          min-height: 42px;
+          margin-top: 22px;
+          padding: 0 18px;
+          font-size: 0.82rem;
+        }
+
+        .hero-services li {
+          justify-content: center;
+          padding-left: 0;
+          border-left: 0;
+        }
+
+        .hero-support,
+        .hero-actions {
+          padding-left: 0;
+          text-align: center;
+          justify-content: center;
+        }
+
+        .hero-services li::before {
+          inset: 0;
+          justify-content: center;
+          padding-left: 0;
+        }
+
+        .site-footer {
+          flex-direction: column;
+          text-align: center;
+        }
+      }
+
+      @media (hover: none), (pointer: coarse) {
+        body.has-custom-cursor,
+        body.has-custom-cursor button {
+          cursor: auto;
+        }
+
+        .custom-cursor,
+        .custom-cursor-dot {
+          display: none;
+        }
+
+        .mona-art.is-active .mona-yellow {
+          opacity: 0;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          animation-duration: 1ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 1ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header" aria-label="Site header">
+      <a class="brand-home" href="index.html">ARES</a>
+    </header>
+
+    <section class="screen preloader" id="preloader" aria-label="Elaine Ares loading intro">
+      <div class="intro">
+        <div class="brand-lockup" aria-label="Elaine Ares">
+          <div class="brand-mark" aria-hidden="true">
+            <img class="brand-logo" src="images/elaine.png" alt="">
+          </div>
+          <h1 class="brand-name">Elaine Ares</h1>
+        </div>
+
+        <div class="terminal" aria-hidden="true">
+          <div class="terminal-bar">
+            <div class="terminal-dots">
+              <span class="terminal-dot"></span>
+              <span class="terminal-dot"></span>
+              <span class="terminal-dot"></span>
+            </div>
+            <span class="terminal-path">elaine.system</span>
+          </div>
+          <div class="terminal-lines">
+            <div class="line"><span class="prompt">&gt;</span><span>boot elaine_ares</span></div>
+            <div class="line"><span class="prompt">&gt;</span><span>compile brand shell</span></div>
+            <div class="line"><span class="prompt">&gt;</span><span>render language gate</span></div>
+            <div class="line"><span class="prompt">&gt;</span><span>ready</span><span class="cursor"></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen language-layer" id="languageLayer" aria-labelledby="languageTitle" aria-hidden="true">
+      <div class="language-panel" role="dialog" aria-modal="true">
+        <h2 class="language-title" id="languageTitle">Choose language</h2>
+        <div class="language-options">
+          <button class="language-button" type="button" data-language="lt">Lietuvių</button>
+          <button class="language-button" type="button" data-language="en">English</button>
+        </div>
+      </div>
+    </section>
+
+    <main class="site-stage" id="app" aria-hidden="true">
+      <section class="hero" aria-label="Elaine Ares hero">
+        <div class="hero-copy" aria-label="Elaine Ares services">
+          <ul class="hero-services">
+            <li data-highlight="Website Designer" data-highlight-i18n="heroWebsite"><span class="service-line" data-i18n="heroWebsite">Website Designer</span></li>
+            <li data-highlight="SEO Optimisation" data-highlight-i18n="heroSeo"><span class="service-line" data-i18n="heroSeo">SEO Optimisation</span></li>
+            <li data-highlight="GEO pending..." data-highlight-i18n="heroGeo"><span class="service-line" data-i18n-html="heroGeo">GEO pending<span class="geo-dots" aria-hidden="true"><span>.</span><span>.</span><span>.</span></span></span></li>
+          </ul>
+          <p class="hero-support" data-i18n="heroSupport">Modern websites and SEO built to strengthen business presence online.</p>
+          <div class="hero-actions" aria-label="Primary actions">
+            <a class="hero-cta" href="services.html" data-i18n="ctaServices">View Services</a>
+            <a class="hero-cta" href="contact.html" data-i18n="ctaContact">Contact</a>
+          </div>
+        </div>
+
+        <div class="mona-stage" aria-label="Interactive Mona Lisa artwork">
+          <div class="mona-art" id="monaArt">
+            <img class="mona-image mona-base" src="images/1.jpg" alt="Symbol-based Mona Lisa artwork">
+            <img class="mona-image mona-yellow" src="images/1.jpg" alt="" aria-hidden="true">
+          </div>
+        </div>
+
+        <div class="hero-right" id="heroRightContent" aria-label="Elaine Ares navigation">
+          <nav class="right-nav" aria-label="Primary pages">
+            <a class="right-nav-link" href="about.html" data-index="01" data-i18n="navAbout">About</a>
+            <a class="right-nav-link" href="services.html" data-index="02" data-i18n="navServices">Services</a>
+            <a class="right-nav-link" href="contact.html" data-index="03" data-i18n="navContact">Contact</a>
+          </nav>
+        </div>
+      </section>
+
+      <section class="structure-section" id="digitalStructure" aria-labelledby="digitalStructureTitle">
+        <div class="structure-canvas-wrap">
+          <canvas class="structure-canvas" id="structureCanvas"></canvas>
+          <div class="structure-final-copy" aria-hidden="true">
+            <span class="structure-final-label" data-i18n="structureLabel">[ WEBSITE DESIGN / SEO ]</span>
+            <h2 class="structure-final-title" data-i18n="structureTitle">From idea to a stronger online presence</h2>
+            <p class="structure-final-text" data-i18n="structureParagraph">We create modern websites and SEO solutions that help businesses look clearer, more professional, and stronger online.</p>
+            <a class="structure-final-button" href="services.html" data-i18n="structureCta">View Services</a>
+          </div>
+          <a class="structure-cta-hit" id="structureCtaHit" href="services.html" aria-label="View Services"></a>
+        </div>
+        <span id="digitalStructureTitle" hidden data-i18n="structureTitle">From idea to a stronger online presence</span>
+      </section>
+
+      <footer class="site-footer">
+        <span class="footer-brand">ARES</span>
+        <span data-i18n="footerService">Website Design / SEO</span>
+        <a class="footer-link" href="contact.html" data-i18n="footerContact">Contact</a>
+        <span>© 2026 Elaine Ares</span>
+      </footer>
+    </main>
+
+    <aside class="chatbot-widget" id="chatbotWidget" aria-label="Elaine Ares Assistant">
+      <div class="chatbot-teaser" id="chatbotTeaser" role="status">
+        <button class="chatbot-teaser-action" type="button" id="chatbotTeaserAction">
+          Sudomino kas nors? Galiu trumpai parodyti, nuo ko verta pradėti.
+        </button>
+        <button class="chatbot-teaser-close" type="button" id="chatbotTeaserClose" aria-label="Close teaser">&times;</button>
+      </div>
+
+      <section class="chat-panel" id="chatPanel" aria-label="Elaine Ares Assistant chat" aria-hidden="true">
+        <header class="chat-panel-header">
+          <img class="chat-panel-icon" src="images/icon.png" alt="">
+          <h2 class="chat-panel-name">Elaine Ares Assistant</h2>
+          <button class="chat-panel-close" type="button" id="chatPanelClose" aria-label="Close chat">&times;</button>
+        </header>
+        <div class="chat-panel-body">
+          <div class="chat-messages" id="chatMessages" aria-live="polite" aria-label="Chat messages"></div>
+          <form class="chat-input-form" id="chatForm" autocomplete="off">
+            <input class="chat-input" id="chatInput" name="message" type="text" placeholder="Parašykite žinutę" aria-label="Type a message">
+            <button class="chat-send" type="submit" aria-label="Send message">↗</button>
+          </form>
+        </div>
+      </section>
+
+      <button class="chatbot-launcher" type="button" id="chatbotLauncher" aria-label="Open Elaine Ares Assistant">
+        <img class="chatbot-icon" src="images/icon.png" alt="">
+      </button>
+    </aside>
+
+    <div class="custom-cursor" aria-hidden="true"></div>
+    <div class="custom-cursor-dot" aria-hidden="true"></div>
+
+    <script>
+      (() => {
+        const preloader = document.querySelector("#preloader");
+        const languageLayer = document.querySelector("#languageLayer");
+        const languageButtons = document.querySelectorAll("[data-language]");
+        const app = document.querySelector("#app");
+        const monaArt = document.querySelector("#monaArt");
+        const serviceItems = document.querySelectorAll(".hero-services li");
+        const structureSection = document.querySelector("#digitalStructure");
+        const structureCanvas = document.querySelector("#structureCanvas");
+        const structureCtaHit = document.querySelector("#structureCtaHit");
+        const chatbotWidget = document.querySelector("#chatbotWidget");
+        const chatbotLauncher = document.querySelector("#chatbotLauncher");
+        const chatbotTeaser = document.querySelector("#chatbotTeaser");
+        const chatbotTeaserAction = document.querySelector("#chatbotTeaserAction");
+        const chatbotTeaserClose = document.querySelector("#chatbotTeaserClose");
+        const chatPanel = document.querySelector("#chatPanel");
+        const chatPanelClose = document.querySelector("#chatPanelClose");
+        const chatMessages = document.querySelector("#chatMessages");
+        const chatForm = document.querySelector("#chatForm");
+        const chatInput = document.querySelector("#chatInput");
+        const introDuration = 2100;
+        const languageExitDuration = 760;
+        const chatbotEntranceDelay = 10000;
+        const chatbotTeaserDelay = 20000;
+        const chatbotTeaserEnabled = false;
+        const storageKey = "elaineAresLanguage";
+        const preloaderShownKey = "elaineAresPreloaderShown";
+        const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+        let chatbotTeaserDismissed = false;
+        let activeLanguage = localStorage.getItem(storageKey) || "en";
+
+        const geoDots = "<span class=\"geo-dots\" aria-hidden=\"true\"><span>.</span><span>.</span><span>.</span></span>";
+        const languageCopy = {
+          en: {
+            heroWebsite: "Website Designer",
+            heroSeo: "SEO Optimisation",
+            heroGeo: `GEO pending${geoDots}`,
+            heroSupport: "Modern websites and SEO built to strengthen business presence online.",
+            ctaServices: "View Services",
+            ctaContact: "Contact",
+            navAbout: "About",
+            navServices: "Services",
+            navContact: "Contact",
+            footerService: "Website Design / SEO",
+            footerContact: "Contact",
+            structureLabel: "[ WEBSITE DESIGN / SEO ]",
+            structureTitle: "From idea to a stronger online presence",
+            structureParagraph: "We create modern websites and SEO solutions that help businesses look clearer, more professional, and stronger online.",
+            structureCta: "View Services"
+          },
+          lt: {
+            heroWebsite: "Svetainių dizainas",
+            heroSeo: "SEO optimizavimas",
+            heroGeo: `GEO ruošiama${geoDots}`,
+            heroSupport: "Modernios svetainės ir SEO sprendimai, stiprinantys verslo įvaizdį internete.",
+            ctaServices: "Paslaugos",
+            ctaContact: "Kontaktai",
+            navAbout: "Apie",
+            navServices: "Paslaugos",
+            navContact: "Kontaktai",
+            footerService: "Svetainių kūrimas / SEO",
+            footerContact: "Kontaktai",
+            structureLabel: "[ SVETAINIŲ KŪRIMAS / SEO ]",
+            structureTitle: "Iš idėjos į stipresnį internetinį įvaizdį",
+            structureParagraph: "Kuriame internetines svetaines ir SEO sprendimus, padedančius verslui atrodyti aiškiau, profesionaliau ir stipriau internete.",
+            structureCta: "Paslaugos"
+          }
+        };
+
+        const stripHtml = (value) => {
+          const holder = document.createElement("span");
+          holder.innerHTML = value;
+          return holder.textContent || "";
+        };
+
+        const getLanguageCopy = () => languageCopy[activeLanguage] || languageCopy.en;
+
+        const applyLanguage = (language) => {
+          activeLanguage = languageCopy[language] ? language : "en";
+          document.documentElement.lang = activeLanguage;
+          const copy = getLanguageCopy();
+
+          document.querySelectorAll("[data-i18n]").forEach((element) => {
+            const key = element.dataset.i18n;
+
+            if (copy[key]) {
+              element.textContent = copy[key];
+            }
+          });
+
+          document.querySelectorAll("[data-i18n-html]").forEach((element) => {
+            const key = element.dataset.i18nHtml;
+
+            if (copy[key]) {
+              element.innerHTML = copy[key];
+            }
+          });
+
+          document.querySelectorAll("[data-highlight-i18n]").forEach((element) => {
+            const key = element.dataset.highlightI18n;
+
+            if (copy[key]) {
+              element.dataset.highlight = stripHtml(copy[key]);
+            }
+          });
+
+          structureCtaHit?.setAttribute("aria-label", copy.structureCta);
+
+          window.dispatchEvent(new CustomEvent("elaine:languagechange", { detail: { language: activeLanguage } }));
+        };
+
+        applyLanguage(activeLanguage);
+
+        const showLanguageLayer = () => {
+          languageLayer.classList.add("is-visible");
+          languageLayer.setAttribute("aria-hidden", "false");
+        };
+
+        const showHero = () => {
+          app.classList.add("is-visible");
+          app.setAttribute("aria-hidden", "false");
+        };
+
+        const skipIntroFlow = () => {
+          const savedLanguage = localStorage.getItem(storageKey);
+
+          if (savedLanguage) {
+            applyLanguage(savedLanguage);
+          }
+
+          preloader.classList.add("is-hidden");
+          languageLayer.classList.remove("is-visible");
+          languageLayer.setAttribute("aria-hidden", "true");
+          showHero();
+        };
+
+        const hidePreloader = () => {
+          preloader.classList.add("is-hidden");
+          sessionStorage.setItem(preloaderShownKey, "true");
+        };
+
+        const startChatbotTimers = () => {
+          window.setTimeout(() => {
+            chatbotWidget?.classList.add("is-arrived");
+          }, chatbotEntranceDelay);
+
+          window.setTimeout(() => {
+            const isChatOpen = chatbotWidget?.classList.contains("is-open");
+            const hasArrived = chatbotWidget?.classList.contains("is-arrived");
+
+            if (chatbotTeaserEnabled && chatbotTeaser && hasArrived && !chatbotTeaserDismissed && !isChatOpen) {
+              chatbotTeaser.classList.add("is-visible");
+            }
+          }, chatbotTeaserDelay);
+        };
+
+        window.addEventListener("load", () => {
+          const savedLanguage = localStorage.getItem(storageKey);
+          const preloaderAlreadyShown = sessionStorage.getItem(preloaderShownKey) === "true";
+
+          if (preloaderAlreadyShown && savedLanguage) {
+            skipIntroFlow();
+            startChatbotTimers();
+            return;
+          }
+
+          if (preloaderAlreadyShown) {
+            preloader.classList.add("is-hidden");
+          }
+
+          window.setTimeout(() => {
+            hidePreloader();
+
+            if (savedLanguage) {
+              applyLanguage(savedLanguage);
+              showHero();
+              return;
+            }
+
+            showLanguageLayer();
+          }, preloaderAlreadyShown ? 0 : introDuration);
+
+          startChatbotTimers();
+        });
+
+        window.addEventListener("pageshow", (event) => {
+          const savedLanguage = localStorage.getItem(storageKey);
+          const preloaderAlreadyShown = sessionStorage.getItem(preloaderShownKey) === "true";
+
+          if (event.persisted && preloaderAlreadyShown && savedLanguage) {
+            skipIntroFlow();
+          }
+        });
+
+        document.querySelectorAll('a[href$=".html"]').forEach((link) => {
+          link.addEventListener("click", (event) => {
+            const url = new URL(link.href, window.location.href);
+
+            if (url.origin !== window.location.origin || link.target) {
+              return;
+            }
+
+            event.preventDefault();
+            document.body.classList.add("is-leaving");
+            window.setTimeout(() => {
+              window.location.href = url.href;
+            }, 220);
+          });
+        });
+
+        const initStructureCanvas = async () => {
+          if (!structureCanvas) {
+            return;
+          }
+
+          if (document.fonts?.ready) {
+            await document.fonts.ready;
+          }
+
+          const ctx = structureCanvas.getContext("2d");
+          const config = {
+            maxParticles: 4300,
+            sampleStep: 5,
+            particleSize: 3.1,
+            squareRatio: 0.25,
+            animationDuration: 2850,
+            triggerThreshold: 0.34,
+            idleStrength: 0.38,
+            burstStrength: 86,
+            textSettleProgress: 0.94
+          };
+          const structureCopy = {
+            en: {
+              label: "[ WEBSITE DESIGN / SEO ]",
+              title: "From idea to a stronger online presence",
+              paragraph: "We create modern websites and SEO solutions that help businesses look clearer, more professional, and stronger online.",
+              cta: "View Services"
+            },
+            lt: {
+              label: "[ SVETAINIŲ KŪRIMAS / SEO ]",
+              title: "Iš idėjos į stipresnį internetinį įvaizdį",
+              paragraph: "Kuriame internetines svetaines ir SEO sprendimus, padedančius verslui atrodyti aiškiau, profesionaliau ir stipriau internete.",
+              cta: "Paslaugos"
+            }
+          };
+          const getStructureContent = () => structureCopy[activeLanguage] || structureCopy.en;
+          const particles = [];
+          let width = 0;
+          let height = 0;
+          let pixelRatio = 1;
+          let animationStart = null;
+          let hasTriggered = false;
+          let textRevealed = false;
+          let frameId = null;
+
+          const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+          const easeInOut = (value) => (value < 0.5 ? 4 * value * value * value : 1 - Math.pow(-2 * value + 2, 3) / 2);
+          const easeOut = (value) => 1 - Math.pow(1 - value, 3);
+          const lerp = (start, end, progress) => start + (end - start) * progress;
+          const seeded = (seed) => {
+            const value = Math.sin(seed * 9301.77) * 10000;
+            return value - Math.floor(value);
+          };
+
+          const wrapText = (measureCtx, text, maxWidth) => {
+            const words = text.split(" ");
+            const lines = [];
+            let line = "";
+
+            words.forEach((word) => {
+              const next = line ? `${line} ${word}` : word;
+
+              if (measureCtx.measureText(next).width > maxWidth && line) {
+                lines.push(line);
+                line = word;
+                return;
+              }
+
+              line = next;
+            });
+
+            if (line) {
+              lines.push(line);
+            }
+
+            return lines;
+          };
+
+          const sampleTargets = (targetCtx, targets, delay, alpha = 0.95) => {
+            const image = targetCtx.getImageData(0, 0, width, height).data;
+
+            for (let y = 0; y < height; y += config.sampleStep) {
+              for (let x = 0; x < width; x += config.sampleStep) {
+                const index = (y * width + x) * 4 + 3;
+
+                if (image[index] > 70) {
+                  targets.push({ x, y, delay, alpha });
+                }
+              }
+            }
+
+            targetCtx.clearRect(0, 0, width, height);
+          };
+
+          const buildTargets = () => {
+            const content = getStructureContent();
+            const targetCanvas = document.createElement("canvas");
+            const targetCtx = targetCanvas.getContext("2d", { willReadFrequently: true });
+            const targets = [];
+            const isCompact = width < 780;
+            const textLeft = isCompact ? width * 0.11 : width * 0.52;
+            const textTop = isCompact ? height * 0.42 : height * 0.22;
+            const maxTextWidth = isCompact ? width * 0.78 : width * 0.4;
+            const labelSize = isCompact ? 12 : 14;
+            const titleSize = clamp(width * (isCompact ? 0.065 : 0.045), isCompact ? 30 : 42, isCompact ? 46 : 68);
+            const paragraphSize = isCompact ? 15 : 18;
+            const buttonHeight = isCompact ? 42 : 48;
+            const buttonWidth = isCompact ? 144 : 162;
+
+            targetCanvas.width = width;
+            targetCanvas.height = height;
+            targetCtx.textBaseline = "top";
+            targetCtx.fillStyle = "#ffffff";
+            targetCtx.strokeStyle = "#ffffff";
+            targetCtx.lineWidth = 2;
+
+            targetCtx.font = `700 ${labelSize}px "Space Grotesk", sans-serif`;
+            targetCtx.fillText(content.label, textLeft, textTop);
+            sampleTargets(targetCtx, targets, 0.1, 0.72);
+
+            targetCtx.font = `700 ${titleSize}px "Space Grotesk", sans-serif`;
+            const titleLines = wrapText(targetCtx, content.title, maxTextWidth);
+            let cursorY = textTop + labelSize + (isCompact ? 22 : 28);
+            titleLines.forEach((line) => {
+              targetCtx.fillText(line, textLeft, cursorY);
+              cursorY += titleSize * 1.02;
+            });
+            sampleTargets(targetCtx, targets, 0.23, 1);
+
+            targetCtx.font = `500 ${paragraphSize}px "Space Grotesk", sans-serif`;
+            const paragraphLines = wrapText(targetCtx, content.paragraph, maxTextWidth);
+            cursorY += isCompact ? 18 : 26;
+            paragraphLines.forEach((line) => {
+              targetCtx.fillText(line, textLeft, cursorY);
+              cursorY += paragraphSize * 1.55;
+            });
+            sampleTargets(targetCtx, targets, 0.45, 0.76);
+
+            const buttonX = textLeft;
+            const buttonY = cursorY + (isCompact ? 18 : 26);
+            targetCtx.strokeRect(buttonX, buttonY, buttonWidth, buttonHeight);
+            targetCtx.font = `700 ${isCompact ? 13 : 14}px "Space Grotesk", sans-serif`;
+            targetCtx.fillText(content.cta, buttonX + 18, buttonY + buttonHeight / 2 - (isCompact ? 7 : 8));
+            sampleTargets(targetCtx, targets, 0.62, 0.94);
+
+            if (structureCtaHit) {
+              structureCtaHit.style.left = `${buttonX}px`;
+              structureCtaHit.style.top = `${buttonY}px`;
+              structureCtaHit.style.width = `${buttonWidth}px`;
+              structureCtaHit.style.height = `${buttonHeight}px`;
+            }
+
+            return targets;
+          };
+
+          const buildParticles = () => {
+            const targets = buildTargets();
+            const limitedTargets = targets.length > config.maxParticles
+              ? targets.filter((_, index) => index % Math.ceil(targets.length / config.maxParticles) === 0).slice(0, config.maxParticles)
+              : targets;
+            const squareColumns = Math.ceil(Math.sqrt(limitedTargets.length));
+            const squareSize = Math.min(width, height) * config.squareRatio;
+            const squareSpacing = squareSize / Math.max(1, squareColumns - 1);
+            const squareCenterX = width < 780 ? width * 0.5 : width * 0.27;
+            const squareCenterY = width < 780 ? height * 0.24 : height * 0.5;
+            const squareStartX = squareCenterX - squareSize / 2;
+            const squareStartY = squareCenterY - squareSize / 2;
+
+            particles.length = 0;
+
+            limitedTargets.forEach((target, index) => {
+              const col = index % squareColumns;
+              const row = Math.floor(index / squareColumns);
+              const startX = squareStartX + col * squareSpacing;
+              const startY = squareStartY + row * squareSpacing;
+              const angle = seeded(index + 3) * Math.PI * 2;
+              const distance = config.burstStrength * (0.45 + seeded(index + 11) * 0.72);
+
+              particles.push({
+                startX,
+                startY,
+                targetX: target.x,
+                targetY: target.y,
+                burstX: Math.cos(angle) * distance,
+                burstY: Math.sin(angle) * distance,
+                delay: target.delay + seeded(index + 17) * 0.08,
+                phase: seeded(index + 23) * Math.PI * 2,
+                alpha: target.alpha
+              });
+            });
+          };
+
+          const resizeCanvas = () => {
+            const rect = structureCanvas.getBoundingClientRect();
+            pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+            width = Math.max(1, Math.floor(rect.width));
+            height = Math.max(1, Math.floor(rect.height));
+            structureCanvas.width = Math.floor(width * pixelRatio);
+            structureCanvas.height = Math.floor(height * pixelRatio);
+            ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+            buildParticles();
+          };
+
+          const draw = (timestamp) => {
+            if (!animationStart) {
+              animationStart = timestamp;
+            }
+
+            const timeline = hasTriggered ? Math.min((timestamp - animationStart) / config.animationDuration, 1) : 0;
+            const finalIdle = timeline >= 1 ? config.idleStrength : 0;
+
+            ctx.clearRect(0, 0, width, height);
+
+            if (hasTriggered && !textRevealed && timeline >= config.textSettleProgress) {
+              textRevealed = true;
+              structureSection?.classList.add("is-text-ready");
+            }
+
+            particles.forEach((particle) => {
+              const local = hasTriggered ? clamp((timeline - particle.delay) / Math.max(0.001, 1 - particle.delay), 0, 1) : 0;
+              const progress = easeInOut(local);
+              const burst = Math.sin(Math.PI * progress);
+              const idleX = Math.sin(timestamp * 0.001 + particle.phase) * finalIdle;
+              const idleY = Math.cos(timestamp * 0.0009 + particle.phase) * finalIdle;
+              const x = lerp(particle.startX, particle.targetX, progress) + particle.burstX * burst + idleX;
+              const y = lerp(particle.startY, particle.targetY, progress) + particle.burstY * burst + idleY;
+              const size = config.particleSize - progress * 0.45;
+              const alpha = lerp(0.72, particle.alpha, easeOut(progress));
+
+              ctx.fillStyle = `rgba(255, 212, 0, ${alpha.toFixed(3)})`;
+              ctx.fillRect(x - size / 2, y - size / 2, size, size);
+            });
+
+            frameId = window.requestAnimationFrame(draw);
+          };
+
+          const triggerAnimation = () => {
+            if (hasTriggered) {
+              return;
+            }
+
+            hasTriggered = true;
+            textRevealed = false;
+            animationStart = null;
+            structureSection?.classList.remove("is-text-ready");
+            structureSection?.classList.add("is-active");
+          };
+
+          resizeCanvas();
+          frameId = window.requestAnimationFrame(draw);
+
+          if ("IntersectionObserver" in window && structureSection) {
+            const observer = new IntersectionObserver(
+              (entries) => {
+                entries.forEach((entry) => {
+                  if (entry.isIntersecting) {
+                    triggerAnimation();
+                    observer.disconnect();
+                  }
+                });
+              },
+              { threshold: config.triggerThreshold }
+            );
+
+            observer.observe(structureSection);
+          } else {
+            triggerAnimation();
+          }
+
+          window.addEventListener("elaine:languagechange", resizeCanvas);
+          window.addEventListener("resize", resizeCanvas);
+          window.addEventListener("beforeunload", () => {
+            if (frameId) {
+              window.cancelAnimationFrame(frameId);
+            }
+          });
+        };
+
+        initStructureCanvas();
+
+        languageButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const language = button.dataset.language;
+
+            localStorage.setItem(storageKey, language);
+            applyLanguage(language);
+            languageButtons.forEach((languageButton) => {
+              languageButton.disabled = true;
+            });
+            languageLayer.classList.add("is-selected");
+            languageLayer.setAttribute("aria-hidden", "true");
+            window.setTimeout(showHero, languageExitDuration);
+          });
+        });
+
+        if (chatbotWidget && chatbotLauncher && chatPanel) {
+          const chatIntents = [
+            {
+              name: "greeting",
+              keywords: ["labas", "sveiki", "hey", "hello", "hi", "good morning", "good evening"],
+              reply: "Labas. Galiu padėti dėl internetinės svetainės, SEO arba bendros projekto krypties. Kas šiuo metu aktualiausia?"
+            },
+            {
+              name: "pricing",
+              keywords: ["kaina", "kainos", "price", "pricing", "cost", "kiek kainuoja", "biudzet", "biudžet"],
+              reply: "Kaina priklauso nuo apimties: puslapių kiekio, dizaino lygio, SEO poreikio ir turinio. Parašykite trumpai, kokios svetainės reikia, ir bus lengviau įvertinti kryptį."
+            },
+            {
+              name: "timeline",
+              keywords: ["kiek laiko", "termin", "timeline", "how long", "trunka", "deadline", "per kiek"],
+              reply: "Terminas priklauso nuo projekto apimties. Mažesnė reprezentacinė svetainė gali judėti greičiau, o didesnei struktūrai su SEO reikia daugiau pasiruošimo. Parašykite, kokio dydžio projektas."
+            },
+            {
+              name: "seo",
+              keywords: ["seo", "optimiz", "google", "paiesk", "paiešk", "ranking", "rank", "search"],
+              reply: "SEO optimizacija padeda svetainei aiškiau komunikuoti su Google ir lankytojais: struktūra, tekstai, techniniai pagrindai ir raktažodžių kryptis. Galite parašyti, ar svetainė jau yra, ar bus kuriama nauja."
+            },
+            {
+              name: "geo",
+              keywords: ["geo", "generative", "ai search", "chatgpt", "perplexity", "dirbtinis intelektas"],
+              reply: "GEO kryptis Elaine Ares dar ruošiama. Tai bus optimizacija matomumui AI paieškoje ir atsakymų sistemose, bet kol kas ji pažymėta kaip pending."
+            },
+            {
+              name: "website",
+              keywords: ["svetaine", "svetainė", "internetine", "internetinė", "puslap", "website", "web design", "webdesign", "site", "landing"],
+              reply: "Elaine Ares kuria premium stiliaus internetines svetaines su aiškia struktūra, stipriu vizualu ir pagrindu SEO. Jei norite, parašykite verslo sritį ir kokio tipo puslapio reikia."
+            },
+            {
+              name: "contact",
+              keywords: ["kontakt", "susisiekti", "email", "el. pašt", "telefon", "contact", "reach", "write"],
+              reply: "Galite palikti savo užklausą čia: kokios svetainės ar SEO pagalbos reikia, koks tikslas ir kaip patogiausia su jumis susisiekti."
+            },
+            {
+              name: "portfolio",
+              keywords: ["portfolio", "pavyzd", "pavyzdž", "examples", "darbai", "work", "case", "projektai"],
+              reply: "Portfolio pavyzdžius galima pateikti pagal reikalingą stilių ar nišą. Parašykite, kokio tipo svetainės pavyzdžių norite: reprezentacinės, paslaugų, landing page ar kitos."
+            }
+          ];
+
+          const normalizeText = (value) =>
+            value
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "");
+
+          const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+          const matchesKeyword = (message, keyword) => {
+            const normalizedKeyword = normalizeText(keyword);
+
+            if (normalizedKeyword.length <= 3) {
+              return new RegExp(`(^|[^a-z0-9])${escapeRegExp(normalizedKeyword)}($|[^a-z0-9])`).test(message);
+            }
+
+            return message.includes(normalizedKeyword);
+          };
+
+          const getAssistantReply = (text) => {
+            const normalized = normalizeText(text);
+            const matchedIntents = chatIntents.filter((intent) =>
+              intent.keywords.some((keyword) => matchesKeyword(normalized, keyword))
+            );
+            const matchedIntent = matchedIntents.find((intent) => intent.name !== "greeting") || matchedIntents[0];
+
+            if (matchedIntent) {
+              return matchedIntent.reply;
+            }
+
+            return "Galiu padėti dėl internetinės svetainės, SEO arba bendro pasiūlymo. Parašykite trumpai, ko šiuo metu ieškote.";
+          };
+
+          const appendChatMessage = (type, text) => {
+            if (!chatMessages) {
+              return;
+            }
+
+            const message = document.createElement("div");
+            message.className = `chat-message is-${type}`;
+            message.textContent = text;
+            chatMessages.appendChild(message);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+          };
+
+          const openChat = () => {
+            chatbotWidget.classList.add("is-open");
+            chatPanel.setAttribute("aria-hidden", "false");
+
+            if (chatbotTeaser) {
+              chatbotTeaser.classList.remove("is-visible");
+            }
+
+            window.setTimeout(() => {
+              chatInput?.focus();
+            }, 120);
+          };
+
+          const closeChat = () => {
+            chatbotWidget.classList.remove("is-open");
+            chatPanel.setAttribute("aria-hidden", "true");
+          };
+
+          chatbotLauncher.addEventListener("click", openChat);
+          chatbotTeaserAction?.addEventListener("click", openChat);
+          chatPanelClose?.addEventListener("click", closeChat);
+
+          chatbotTeaserClose?.addEventListener("click", (event) => {
+            event.stopPropagation();
+            chatbotTeaserDismissed = true;
+            chatbotTeaser?.classList.remove("is-visible");
+          });
+
+          chatForm?.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            const text = chatInput?.value.trim();
+
+            if (!text) {
+              return;
+            }
+
+            appendChatMessage("user", text);
+            chatInput.value = "";
+
+            window.setTimeout(() => {
+              appendChatMessage("assistant", getAssistantReply(text));
+            }, 520);
+          });
+
+          chatbotWidget.addEventListener("pointerenter", () => {
+            document.body.classList.add("cursor-over-chatbot");
+          });
+
+          chatbotWidget.addEventListener("pointerleave", () => {
+            document.body.classList.remove("cursor-over-chatbot");
+          });
+        }
+
+        if (finePointer) {
+          document.body.classList.add("has-custom-cursor");
+
+          let cursorTargetX = window.innerWidth / 2;
+          let cursorTargetY = window.innerHeight / 2;
+          let cursorRingX = cursorTargetX;
+          let cursorRingY = cursorTargetY;
+
+          const renderCursor = () => {
+            cursorRingX += (cursorTargetX - cursorRingX) * 0.18;
+            cursorRingY += (cursorTargetY - cursorRingY) * 0.18;
+
+            document.documentElement.style.setProperty("--cursor-ring-x", `${cursorRingX}px`);
+            document.documentElement.style.setProperty("--cursor-ring-y", `${cursorRingY}px`);
+            document.documentElement.style.setProperty("--cursor-dot-x", `${cursorTargetX}px`);
+            document.documentElement.style.setProperty("--cursor-dot-y", `${cursorTargetY}px`);
+
+            window.requestAnimationFrame(renderCursor);
+          };
+
+          window.addEventListener("pointermove", (event) => {
+            cursorTargetX = event.clientX;
+            cursorTargetY = event.clientY;
+            document.body.classList.add("is-pointer-active");
+          });
+
+          window.addEventListener("pointerleave", () => {
+            document.body.classList.remove("is-pointer-active");
+          });
+
+          window.addEventListener("pointerdown", () => {
+            document.body.classList.add("cursor-down");
+          });
+
+          window.addEventListener("pointerup", () => {
+            document.body.classList.remove("cursor-down");
+          });
+
+          renderCursor();
+        }
+
+        if (monaArt && finePointer) {
+          let targetX = 50;
+          let targetY = 50;
+          let currentX = 50;
+          let currentY = 50;
+          let monaFrame = null;
+
+          const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+          const renderMonaSpot = () => {
+            currentX += (targetX - currentX) * 0.22;
+            currentY += (targetY - currentY) * 0.22;
+
+            monaArt.style.setProperty("--spot-x", `${currentX}%`);
+            monaArt.style.setProperty("--spot-y", `${currentY}%`);
+            monaFrame = window.requestAnimationFrame(renderMonaSpot);
+          };
+
+          const startMonaSpot = () => {
+            if (!monaFrame) {
+              renderMonaSpot();
+            }
+          };
+
+          const stopMonaSpot = () => {
+            if (monaFrame) {
+              window.cancelAnimationFrame(monaFrame);
+              monaFrame = null;
+            }
+          };
+
+          monaArt.addEventListener("pointerenter", () => {
+            monaArt.classList.add("is-active");
+            document.body.classList.add("cursor-over-art");
+            startMonaSpot();
+          });
+
+          monaArt.addEventListener("pointermove", (event) => {
+            const rect = monaArt.getBoundingClientRect();
+
+            targetX = clamp(((event.clientX - rect.left) / rect.width) * 100, 0, 100);
+            targetY = clamp(((event.clientY - rect.top) / rect.height) * 100, 0, 100);
+          });
+
+          monaArt.addEventListener("pointerleave", () => {
+            monaArt.classList.remove("is-active");
+            document.body.classList.remove("cursor-over-art");
+            stopMonaSpot();
+          });
+        }
+
+        if (serviceItems.length && finePointer) {
+          serviceItems.forEach((item) => {
+            item.addEventListener("pointerenter", () => {
+              item.classList.add("is-text-active");
+              document.body.classList.add("cursor-over-text");
+            });
+
+            item.addEventListener("pointermove", (event) => {
+              const rect = item.getBoundingClientRect();
+              const x = ((event.clientX - rect.left) / rect.width) * 100;
+              const y = ((event.clientY - rect.top) / rect.height) * 100;
+
+              item.style.setProperty("--text-x", `${x}%`);
+              item.style.setProperty("--text-y", `${y}%`);
+            });
+
+            item.addEventListener("pointerleave", () => {
+              item.classList.remove("is-text-active");
+              document.body.classList.remove("cursor-over-text");
+            });
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>

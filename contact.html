@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#000000">
+    <title>Contact | Elaine Ares</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="images/elaine.png">
+    <style>
+      :root {
+        --black: #000000;
+        --yellow: #ffd400;
+        --yellow-soft: rgba(255, 212, 0, 0.72);
+        --yellow-faint: rgba(255, 212, 0, 0.16);
+        --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: var(--black);
+      }
+
+      body {
+        color: var(--yellow);
+        font-family: "Space Grotesk", system-ui, sans-serif;
+        letter-spacing: 0;
+        animation: pageIn 420ms var(--ease) forwards;
+      }
+
+      body.is-leaving {
+        opacity: 0;
+        transition: opacity 240ms var(--ease);
+      }
+
+      .site-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 20;
+        display: flex;
+        justify-content: center;
+        padding: clamp(18px, 3vw, 30px) clamp(22px, 5vw, 72px);
+        pointer-events: none;
+      }
+
+      .brand-home {
+        display: inline-flex;
+        align-items: center;
+        min-height: 38px;
+        padding: 0 14px;
+        border: 1px solid rgba(255, 212, 0, 0.58);
+        color: var(--yellow);
+        background: rgba(0, 0, 0, 0.68);
+        text-decoration: none;
+        font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+        font-weight: 700;
+        pointer-events: auto;
+        transition: background-color 220ms var(--ease), color 220ms var(--ease), border-color 220ms var(--ease), transform 220ms var(--ease);
+      }
+
+      .brand-home:hover,
+      .brand-home:focus-visible {
+        border-color: var(--yellow);
+        background: var(--yellow);
+        color: var(--black);
+        outline: 0;
+        transform: translateY(-1px);
+      }
+
+      .info-page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .page-main {
+        flex: 1;
+        display: grid;
+        align-content: center;
+        padding: clamp(118px, 18vh, 168px) clamp(22px, 6vw, 90px) 88px;
+      }
+
+      .page-shell {
+        width: min(960px, 100%);
+        margin: 0 auto;
+      }
+
+      .page-kicker {
+        display: inline-block;
+        margin-bottom: 18px;
+        color: var(--yellow-soft);
+        font-size: 0.82rem;
+        font-weight: 700;
+      }
+
+      .page-title {
+        margin: 0;
+        max-width: 10ch;
+        font-size: clamp(3rem, 7vw, 5.8rem);
+        font-weight: 700;
+        line-height: 0.92;
+      }
+
+      .page-copy {
+        max-width: 780px;
+        margin-top: 28px;
+        padding-top: 28px;
+        border-top: 1px solid var(--yellow-faint);
+        display: grid;
+        gap: 18px;
+      }
+
+      .page-copy p {
+        margin: 0;
+        color: var(--yellow-soft);
+        font-size: clamp(1rem, 1.45vw, 1.12rem);
+        font-weight: 500;
+        line-height: 1.72;
+      }
+
+      .site-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 22px clamp(22px, 5vw, 72px);
+        border-top: 1px solid rgba(255, 212, 0, 0.18);
+        color: var(--yellow-soft);
+        font-size: 0.82rem;
+        font-weight: 600;
+      }
+
+      .footer-brand {
+        color: var(--yellow);
+        font-weight: 700;
+      }
+
+      .footer-link {
+        color: var(--yellow-soft);
+        text-decoration: none;
+        transition: color 220ms var(--ease);
+      }
+
+      .footer-link:hover,
+      .footer-link:focus-visible {
+        color: var(--yellow);
+        outline: 0;
+      }
+
+      @keyframes pageIn {
+        from {
+          opacity: 0;
+        }
+
+        to {
+          opacity: 1;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .page-main {
+          padding-top: 116px;
+        }
+
+        .page-title {
+          max-width: none;
+          font-size: clamp(2.4rem, 12vw, 4rem);
+        }
+
+        .site-footer {
+          flex-direction: column;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand-home" href="index.html">ARES</a>
+    </header>
+
+    <div class="info-page">
+      <main class="page-main">
+        <section class="page-shell" aria-labelledby="pageTitle">
+          <span class="page-kicker" data-i18n="kicker">[ CONTACT ]</span>
+          <h1 class="page-title" id="pageTitle" data-i18n="title">Contact</h1>
+          <div class="page-copy">
+            <p data-i18n="paragraphOne">For website design, SEO direction, or a broader digital presentation inquiry, the next step is a simple conversation about the business, current situation, and what needs to be improved.</p>
+            <p data-i18n="paragraphTwo">Project discussions can begin with a short overview of the business, the desired direction, and whether the main need is a new website, SEO, or both.</p>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <span class="footer-brand">ARES</span>
+        <span data-i18n="footerService">Website Design / SEO</span>
+        <a class="footer-link" href="contact.html" data-i18n="footerContact">Contact</a>
+        <span>© 2026 Elaine Ares</span>
+      </footer>
+    </div>
+
+    <script>
+      (() => {
+        const storageKey = "elaineAresLanguage";
+        const pageCopy = {
+          en: {
+            kicker: "[ CONTACT ]",
+            title: "Contact",
+            paragraphOne: "For website design, SEO direction, or a broader digital presentation inquiry, the next step is a simple conversation about the business, current situation, and what needs to be improved.",
+            paragraphTwo: "Project discussions can begin with a short overview of the business, the desired direction, and whether the main need is a new website, SEO, or both.",
+            footerService: "Website Design / SEO",
+            footerContact: "Contact"
+          },
+          lt: {
+            kicker: "[ KONTAKTAI ]",
+            title: "Kontaktai",
+            paragraphOne: "Dėl svetainės kūrimo, SEO krypties ar platesnio skaitmeninio pateikimo užklausos kitas žingsnis yra paprastas pokalbis apie verslą, dabartinę situaciją ir tai, ką reikia sustiprinti.",
+            paragraphTwo: "Projektų aptarimą galima pradėti nuo trumpos verslo apžvalgos, norimos krypties ir to, ar pagrindinis poreikis yra nauja svetainė, SEO, ar abu sprendimai kartu.",
+            footerService: "Svetainių kūrimas / SEO",
+            footerContact: "Kontaktai"
+          }
+        };
+
+        const language = pageCopy[localStorage.getItem(storageKey)] ? localStorage.getItem(storageKey) : "en";
+        document.documentElement.lang = language;
+
+        document.querySelectorAll("[data-i18n]").forEach((element) => {
+          const key = element.dataset.i18n;
+          if (pageCopy[language][key]) {
+            element.textContent = pageCopy[language][key];
+          }
+        });
+
+        document.querySelectorAll("a[href$='.html']").forEach((link) => {
+          link.addEventListener("click", (event) => {
+            const href = link.getAttribute("href");
+
+            if (!href || href.startsWith("#") || link.target === "_blank" || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+              return;
+            }
+
+            event.preventDefault();
+            document.body.classList.add("is-leaving");
+            window.setTimeout(() => {
+              window.location.href = href;
+            }, 220);
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
